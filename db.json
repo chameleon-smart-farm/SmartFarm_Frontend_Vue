@@ -1,0 +1,16 @@
+{
+    "user": [
+      { "id": 1, "user_name": "kebin", "user_id" : "kebin123" ,
+        "user_pwd" : "123456789", "grow_crop" : "옥수수", "faw_crop" : "딸기"}
+    ],
+    "house": [
+      { "house_id": 1, "id": 1, "house_registration": "2025-02-08",
+        "house_adress" : "서울 마포구 서교동", "house_coordinates" : "POINT(122.03073774 37.33128013)"  }
+    ],
+    "scheduler": [
+      {
+        "sche_id" : 1, "id" : 1, "mon_day" : "02-06", "hour_min" : "13:37",
+        "day" : 0, "repetiton" : 1
+      }
+    ]
+}
