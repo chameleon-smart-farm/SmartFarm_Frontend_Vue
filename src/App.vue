@@ -24,11 +24,11 @@
             <li>서비스 약관</li>
         </ul>
 
-    </div>
+      </div>
 
     </div>
   </div>
-  <nav class="navbar mb-0" style="background-color: orange;" >
+  <nav class="navbar mb-0" style="background-color: orange;" v-show="nav_show" >
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
           @click="clickMenu">
@@ -47,7 +47,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 // import { useRouter } from 'vue-router';
 
 export default {
@@ -59,7 +59,10 @@ export default {
     const store = useStore();
     // 전역 변수인 user_email값 호출
     const user_email = store.state.user_email;
+    // NavBar 보여주기 여부
+    const nav_show = computed(() => store.state.show_nav);
 
+    
     // 메뉴 선택 메서드
     const selectMenu = (select_id) => {
       console.log("select Id : ", select_id);
@@ -89,7 +92,8 @@ export default {
       selectMenu,
       user_email,
       clickMenu,
-      isClick
+      isClick,
+      nav_show
     }
   }
 };
