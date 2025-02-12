@@ -4,7 +4,8 @@ export default createStore({
 
     // 
     state : {
-        example : true
+        example : true,
+        user_email : "example@naver.com"
     },
     
     // 위의 state 변수들을 변경시키는 함수
@@ -12,6 +13,9 @@ export default createStore({
         MESSAGE(state, payload) {
             // state : 위의 영역 / payload : 변경될 값
             state.example = payload;
+        },
+        USEREMAIL(state, payload) {
+            state.user_email = payload;
         }
     },
 
@@ -20,6 +24,9 @@ export default createStore({
     actions : {
         triggerExample({commit}, message){
             commit('MESSAGE', message);
+        },
+        triggerUSEREMAIL({commit}, email) {
+            commit('USEREMAIL', email);
         }
     }
 })
