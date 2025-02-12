@@ -5,7 +5,8 @@ export default createStore({
     // 
     state : {
         example : true,
-        user_email : "example@naver.com"
+        user_email : "example@naver.com",
+        show_nav : true
     },
     
     // 위의 state 변수들을 변경시키는 함수
@@ -16,6 +17,9 @@ export default createStore({
         },
         USEREMAIL(state, payload) {
             state.user_email = payload;
+        },
+        SHOWNAV(state, payload) {
+            state.show_nav = payload;
         }
     },
 
@@ -27,6 +31,9 @@ export default createStore({
         },
         triggerUSEREMAIL({commit}, email) {
             commit('USEREMAIL', email);
+        },
+        triggerSHOWNAV({commit}, show) {
+            commit('SHOWNAV', show);
         }
     }
 })
