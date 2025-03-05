@@ -24,6 +24,13 @@
         v-bind:class="{ 'text_full' : user_id }" > </div>
   </div>
 
+  <!-- 이메일 -->
+  <div class="mb-4" >
+    <div class="text_align" ><h3>이메일</h3></div>
+    <div> <input type="text" v-model="user_email" class="form-control" placeholder="이메일"
+        v-bind:class="{ 'text_full' : user_email }" > </div>
+  </div>
+
   <!-- 비밀번호 -->
   <div class="mb-4" >
     <div class="text_align" ><h3>비밀번호</h3></div>
@@ -40,7 +47,7 @@
 
   <!-- 다음 버튼 -->
   <div class="mb-4 d-grid" >
-    <button class="btn btn-dark" >다음</button>
+    <button class="btn btn-dark" @click="toNextSignUp" >다음</button>
   </div>
 
 </template>
@@ -71,15 +78,28 @@ export default {
         // 사용자 이름, 아이디, 비밀번호, 비밀번호 확인
         const user_name = ref('');
         const user_id = ref('');
+        const user_email = ref('');
         const user_pwd = ref('');
         const user_pwd_chk = ref('');
+
+        // 다음 페이지로 이동
+        const toNextSignUp = () => {
+            router.push({
+                name : "NextSignUpPage",
+                params : {
+                    user_email
+                }
+            })
+        }
 
         return{
             toLogin,
             user_name,
             user_id,
+            user_email,
             user_pwd,
-            user_pwd_chk
+            user_pwd_chk,
+            toNextSignUp
         }
     }
 
