@@ -86,9 +86,7 @@ export default {
         const toNextSignUp = () => {
             router.push({
                 name : "NextSignUpPage",
-                params : {
-                    user_email
-                }
+                params: { user_email: user_email.value }
             })
         }
 
