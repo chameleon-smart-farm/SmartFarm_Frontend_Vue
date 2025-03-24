@@ -88,9 +88,9 @@ export default {
       .then((response) => {
         console.log(response.data);
 
-        // 메인 페이지 이동
+        // 농장 선택 페이지 이동
         router.push({
-          name : "Main"
+          name : "SelectHousePage"
         })
       })
       .catch((e) => {
