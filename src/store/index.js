@@ -6,6 +6,7 @@ export default createStore({
     state : {
         example : true,
         user_email : "example@naver.com",
+        user_name : "example",
         show_nav : true
     },
     
@@ -17,6 +18,9 @@ export default createStore({
         },
         USEREMAIL(state, payload) {
             state.user_email = payload;
+        },
+        USERNAME(state, payload){
+            state.user_name = payload;
         },
         SHOWNAV(state, payload) {
             state.show_nav = payload;
@@ -31,6 +35,9 @@ export default createStore({
         },
         triggerUSEREMAIL({commit}, email) {
             commit('USEREMAIL', email);
+        },
+        triggerUSERNAME({commit}, name) {
+            commit('UERNAME', name);
         },
         triggerSHOWNAV({commit}, show) {
             commit('SHOWNAV', show);
