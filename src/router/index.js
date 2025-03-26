@@ -5,6 +5,7 @@ import MainPage from "@/pages/MainPage.vue";
 import LoginPage from "@/pages/Login/LoginPage.vue";
 import FindPwdPage from "@/pages/Login/FindPwdPage.vue";
 import SelectHousePage from "@/pages/Login/SelectHousePage.vue";
+import MyPage from "@/pages/User/MyPage.vue";
 
 const router = createRouter({
     history : createWebHistory(),
@@ -29,6 +30,11 @@ const router = createRouter({
             path : "/",
             name : "SelectHousePage",
             component : SelectHousePage
+        },
+        {
+            path : "/my-page",
+            name : "MyPage",
+            component : MyPage
         }
     ]
 })
