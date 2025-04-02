@@ -36,7 +36,7 @@
   <div class="mb-4">
     <div class="row">
       <div class="col-6" style="display: flex; justify-content: flex-start;">
-        <button class="btn"><u>회원가입</u></button>
+        <button class="btn" @click="toSignUp" ><u>회원가입</u></button>
       </div>
       <div class="col-6" style="display: flex; justify-content: flex-end;">
         <button class="btn" @click="toFindPwd" ><u>비밀번호 찾기</u></button>
@@ -102,6 +102,11 @@ export default {
 
     }
     // 회원가입 페이지 이동
+    const toSignUp = () => {
+      router.push({
+        name : "SignUpPage"
+      })
+    }
 
     // 비밀번호 찾기 페이지 이동
     const toFindPwd = () => {
@@ -116,7 +121,8 @@ export default {
       login,
       ifFalse,
       error_msg,
-      toFindPwd
+      toFindPwd,
+      toSignUp
     }
 
   }
