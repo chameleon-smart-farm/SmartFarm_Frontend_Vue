@@ -22,7 +22,7 @@
 
   <!-- 로그인 버튼 -->
   <div class="mb-4 d-grid" >
-    <button class="btn btn-dark" @click="login" >로그인</button>
+    <button class="btn btn-dark" @click="userLogin" >로그인</button>
   </div>
 
   <!-- 로그인 실패 팝업 -->
@@ -53,7 +53,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from "axios";
+import { login } from '@/axios'
 
 export default {
 
@@ -74,17 +74,14 @@ export default {
     const error_msg = ref('');
 
     // login
-    const login = async () => {
+    const userLogin = async () => {
 
-      // const data = {
-      //   user_id : user_id,
-      //   user_pwd : user_pwd
-      // }
+      const data = {
+        "user_id" : user_id.value,
+        "user_pwd" : user_pwd.value
+      }
 
-      axios({
-        method : "get",
-        url : `http://localhost:3000/user?user_id=${user_id.value}`
-      })
+      await login(data)
       .then((response) => {
         console.log(response.data);
 
@@ -104,7 +101,7 @@ export default {
     // 회원가입 페이지 이동
     const toSignUp = () => {
       router.push({
-        name : "SignUpPage"
+        name : "PreSignUpPage"
       })
     }
 
@@ -118,7 +115,7 @@ export default {
     return {
       user_id,
       user_pwd,
-      login,
+      userLogin,
       ifFalse,
       error_msg,
       toFindPwd,

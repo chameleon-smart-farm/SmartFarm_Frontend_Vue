@@ -24,13 +24,6 @@
           v-bind:class="{ 'text_full' : user_id }" > </div>
     </div>
   
-    <!-- 이메일 -->
-    <div class="mb-4" >
-      <div class="text_align" ><h3>이메일</h3></div>
-      <div> <input type="text" v-model="user_email" class="form-control" placeholder="이메일"
-          v-bind:class="{ 'text_full' : user_email }" > </div>
-    </div>
-  
     <!-- 비밀번호 -->
     <div class="mb-4" >
       <div class="text_align" ><h3>비밀번호</h3></div>
@@ -44,10 +37,38 @@
       <div> <input type="password" v-model="user_pwd_chk" class="form-control" placeholder="비밀번호 확인"
           v-bind:class="{ 'text_full' : user_pwd_chk }" > </div>
     </div>
+
+    <!-- 관심 작물 -->
+    <div class="mb-4" >
+      <div class="text_align" ><h3>관심 작물</h3></div>
+      <div> <input type="text" v-model="user_faw_crop" class="form-control" placeholder="관심 작물"
+          v-bind:class="{ 'text_full' : user_faw_crop }" > </div>
+    </div>
+
+    <!-- 농장 이름 -->
+    <div class="mb-4" >
+      <div class="text_align" ><h3>농장 이름</h3></div>
+      <div> <input type="text" v-model="house_name" class="form-control" placeholder="농장 이름"
+          v-bind:class="{ 'text_full' : house_name }" > </div>
+    </div>
+
+    <!-- 농장 작물 -->
+    <div class="mb-4" >
+      <div class="text_align" ><h3>농장 작물</h3></div>
+      <div> <input type="text" v-model="house_crop" class="form-control" placeholder="농장 작물"
+          v-bind:class="{ 'text_full' : house_crop }" > </div>
+    </div>
+
+    <!-- 회원가입 실패 팝업 -->
+    <div class="alert_class grid">
+      <div v-if="ifFalse" class="alert alert-danger flex_item_center" >
+        {{ error_msg }}
+      </div>
+    </div>
   
-    <!-- 다음 버튼 -->
+    <!-- 회원 가입 버튼 -->
     <div class="mb-4 d-grid" >
-      <button class="btn btn-dark" @click="toNextSignUp" >다음</button>
+      <button class="btn btn-dark" @click="signUp" >회원 가입</button>
     </div>
   
 </template>
@@ -55,7 +76,8 @@
 <script>
 import { useStore } from 'vuex';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { sign_up } from '@/axios'
 
 export default {
 
@@ -75,18 +97,48 @@ export default {
             })
         }
 
-        // 사용자 이름, 아이디, 비밀번호, 비밀번호 확인
+        // route 사용과 param으로 사용자 이메일 받기
+        const route = useRoute();
+        const house_id = route.params.house_id;
+
+        // 사용자 이름, 아이디, 비밀번호, 비밀번호 확인, 관심 작물
         const user_name = ref('');
         const user_id = ref('');
-        const user_email = ref('');
         const user_pwd = ref('');
         const user_pwd_chk = ref('');
+        const user_faw_crop = ref('');
 
-        // 다음 페이지로 이동
-        const toNextSignUp = () => {
-            router.push({
-                name : "NextSignUpPage",
-                params: { user_email: user_email.value }
+        // 농장 이름, 농장 작물
+        const house_name = ref('');
+        const house_crop = ref('');
+
+        // 회원가입 실패시 팝업을 띄울 변수
+        const ifFalse = ref(false);
+        const error_msg = ref('');
+
+        // 회원가입 요청
+        const signUp = async () => {
+
+          const data = {
+            "house_id": house_id,
+            "house_crop": house_crop.value,
+            "house_name": house_name.value,
+            "user_name": user_name.value,
+            "user_id": user_id.value,
+            "user_pwd": user_pwd.value,
+            "faw_crop": user_faw_crop.value
+          }
+
+          // 성공이라면 로그인 페이지로 이동, 실패라면 실패 팝업
+          await sign_up(data)
+            .then(() => {
+                router.push({
+                    name : "Login"
+                })
+            })
+            .catch((e) => {
+                ifFalse.value = true;
+                error_msg.value = e.message;
             })
         }
 
@@ -94,10 +146,14 @@ export default {
             toLogin,
             user_name,
             user_id,
-            user_email,
+            user_faw_crop,
             user_pwd,
             user_pwd_chk,
-            toNextSignUp
+            house_name,
+            house_crop,
+            signUp,
+            ifFalse,
+            error_msg
         }
     }
 
