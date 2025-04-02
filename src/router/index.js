@@ -8,7 +8,7 @@ import SelectHousePage from "@/pages/Login/SelectHousePage.vue";
 import MyPage from "@/pages/User/MyPage.vue";
 import HouseStatusPage from "@/pages/House/HouseStatusPage.vue";
 import SignUpPage from "@/pages/Login/SignUpPage.vue";
-import NextSignUpPage from "@/pages/Login/NextSignUpPage.vue";
+import PreSignUpPage from "@/pages/Login/PreSignUpPage.vue";
 
 const router = createRouter({
     history : createWebHistory(),
@@ -45,14 +45,14 @@ const router = createRouter({
             component : HouseStatusPage
         },
         {
-            path : "/sign-up",
+            path : "/sign-up/:house_id",
             name : "SignUpPage",
             component : SignUpPage
         },
         {
-            path : "/next-sign-up/:user_email",
-            name : "NextSignUpPage",
-            component : NextSignUpPage
+            path : "/pre-sign-up",
+            name : "PreSignUpPage",
+            component : PreSignUpPage
         }
     ]
 })
