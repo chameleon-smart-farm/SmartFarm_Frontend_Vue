@@ -45,6 +45,15 @@ export function test(access_token, refresh_token) {
     })
 }
 
+// 농장 목록 가져오기
+export function get_house_name_list(access_token) {
+    return user_axios.get('/house/name_list', {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // 로그인 정보 얻어오기
 // export function login_info_get(token) {
 //     return user_axios.get('/user/getInfo', {

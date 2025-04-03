@@ -9,7 +9,8 @@ export default createStore({
         user_name : "example",
         show_nav : true,
         access_token : "",
-        refresh_token : ""
+        refresh_token : "",
+        house_id : 1
     },
     
     // 위의 state 변수들을 변경시키는 함수
@@ -32,6 +33,9 @@ export default createStore({
         },
         REFRESH(state, payload){
             state.refresh_token = payload;
+        },
+        HOUSEID(state, payload){
+            state.house_id = payload;
         }
     },
 
@@ -55,6 +59,9 @@ export default createStore({
         },
         triggerREFRESH({commit}, refresh){
             commit('REFRESH', refresh);
+        },
+        triggerHOUSEID({commit}, house_id){
+            commit('HOUSEID', house_id);
         }
     }
 })

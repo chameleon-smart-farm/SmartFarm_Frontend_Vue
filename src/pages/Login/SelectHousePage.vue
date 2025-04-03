@@ -16,7 +16,7 @@
         <div class="card mt-2"
             v-for="h in houses"
             :key = "h.house_id" style="flex: 1;"> 
-            <div class="card-body p-2" @click="toMain" > 
+            <div class="card-body p-2" @click="toMain(h.house_id)" > 
                 {{ h.house_name }}
             </div>
         </div>
@@ -31,6 +31,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { get_house_name_list } from '@/axios';
 
 export default {
 
@@ -45,18 +46,28 @@ export default {
         // 사용자 이름
         const user_name = ref(store.state.user_name);
 
-        // 농장 객체, 농장 리스트
-        // const house = ref("");
+        // 농장 리스트
         const houses = ref([{"house_name" : "나만의 농장"},{"house_name" : "고구마 농장"} ]);
 
         // 농장 목록 가져오기
-        const getHouseList = () => {
-
+        const getHouseList = async () => {
+            await get_house_name_list(store.state.access_token)
+                .then((response) => {
+                    houses.value = response.data;
+                })
+                .catch((e) => {
+                    console.log(e.message);
+                })
         }
         getHouseList();
 
-        // 메인 페이지 이동
-        const toMain = () => {
+        // house_id 설정과 메인 페이지 이동
+        const toMain = (house_id) => {
+
+            // house_id 설정
+            store.dispatch('triggerHOUSEID',house_id);
+
+            // 메인 페이지 이동
             router.push({
                 name : "Main"
             })
@@ -64,7 +75,6 @@ export default {
 
         return {
             user_name,
-            // house,
             houses,
             getHouseList,
             toMain
