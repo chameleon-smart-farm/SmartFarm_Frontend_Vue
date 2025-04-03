@@ -26,6 +26,25 @@ export function login(data) {
     return user_axios.post('/login', data);
 }
 
+// 사용자 이름 받아오기
+export function get_name(access_token) {
+    return user_axios.get('/get_name', {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 토큰
+export function test(access_token, refresh_token) {
+    return user_axios.get('/test', {
+        headers : {
+            "Authorization" : "Bearer " + access_token,
+            "REFRESH_TOKEN" : "Bearer " + refresh_token
+        }
+    })
+}
+
 // 로그인 정보 얻어오기
 // export function login_info_get(token) {
 //     return user_axios.get('/user/getInfo', {

@@ -1,13 +1,15 @@
 import {createStore} from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 export default createStore({
-
-    // 
+    plugins: [
+        createPersistedState() // vuex-persistedstate 플러그인 사용
+    ],
     state : {
-        example : true,
-        user_email : "example@naver.com",
         user_name : "example",
-        show_nav : true
+        show_nav : true,
+        access_token : "",
+        refresh_token : ""
     },
     
     // 위의 state 변수들을 변경시키는 함수
@@ -24,6 +26,12 @@ export default createStore({
         },
         SHOWNAV(state, payload) {
             state.show_nav = payload;
+        },
+        ACCESS(state, payload){
+            state.access_token = payload;
+        },
+        REFRESH(state, payload){
+            state.refresh_token = payload;
         }
     },
 
@@ -37,10 +45,16 @@ export default createStore({
             commit('USEREMAIL', email);
         },
         triggerUSERNAME({commit}, name) {
-            commit('UERNAME', name);
+            commit('USERNAME', name);
         },
         triggerSHOWNAV({commit}, show) {
             commit('SHOWNAV', show);
+        },
+        triggerACCESS({commit}, access){
+            commit('ACCESS', access);
+        },
+        triggerREFRESH({commit}, refresh){
+            commit('REFRESH', refresh);
         }
     }
 })
