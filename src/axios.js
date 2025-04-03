@@ -54,6 +54,15 @@ export function get_house_name_list(access_token) {
     })
 }
 
+// 농장 기상청 데이터 가져오기
+export function get_weather_info(access_token, house_id){
+    return user_axios.get('/house/get_weather_info/' + house_id, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // 로그인 정보 얻어오기
 // export function login_info_get(token) {
 //     return user_axios.get('/user/getInfo', {
