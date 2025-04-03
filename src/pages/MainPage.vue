@@ -2,11 +2,11 @@
   
   <div class="container" >
 
-    <!-- 온도, 풍속 영역 -->
+    <!-- 온도, 풍속, 습도 영역 -->
     <div class="row mt-5" style="flex: 1;" >
 
       <!-- 온도 -->
-      <div class="col-5 card-box" style="background: #FFA07A;" >
+      <div class="col-3 card-box" style="background: #FFA07A;" >
         <div>
           <h4>온도</h4>
           <h1>{{ temperature }}</h1>
@@ -14,26 +14,32 @@
       </div>
 
       <!-- 풍속 -->
-      <div class="col-5 card-box" style="background: #FFE4B5;" >
+      <div class="col-3 card-box" style="background: #FFE4B5;" >
         <h4>풍속</h4>
         <h1>{{ wind_speed }}</h1>
       </div>
 
-    </div>
-
-    <!-- 날씨, 습도 영역 -->
-    <div class="row mt-2" style="flex: 1;" >
-
-      <!-- 날씨 -->
-      <div class="col-5 card-box" style="background: #F0E68C;" >
-        <h4>날씨</h4>
-        <h1>{{ weather }}</h1>
-      </div>
-
       <!-- 습도 -->
-      <div class="col-5 card-box" style="background: #66CDAA;" >
+      <div class="col-3 card-box" style="background: #66CDAA;" >
         <h4>습도</h4>
         <h1>{{ humidity }}</h1>
+      </div>
+
+    </div>
+
+    <!-- 하늘 상태, 강수 상태 영역 -->
+    <div class="row mt-2" style="flex: 1;" >
+
+      <!-- 하늘 상태 -->
+      <div class="col-5 card-box" style="background: #F0E68C;" >
+        <h4>하늘</h4>
+        <h1>{{ weather_status }}</h1>
+      </div>
+
+      <!-- 강수 상태 -->
+      <div class="col-5 card-box" style="background: #F0E68C;" >
+        <h4>강수</h4>
+        <h1>{{ weather_preci }}</h1>
       </div>
 
     </div>
@@ -48,35 +54,58 @@
 
 <script>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { get_weather_info } from '@/axios';
 
 export default {
 
   setup() {
 
-    // store 변수
+    // store 변수, router 변수
     const store = useStore();
+    const router = useRouter();
+
 
     // NavBar 보이기
     store.dispatch('triggerSHOWNAV',true, Boolean);
 
-    // 온도, 풍속, 날씨, 습도 
+    // 온도, 풍속, 하늘 상태, 강우 상태, 습도 
     const temperature = ref(18);
     const wind_speed = ref(18);
-    const weather = ref("비");
+    const weather_status = ref("비");
+    const weather_preci = ref('비');
     const humidity = ref(18);
 
     // 농장의 기상청 정보를 받아옴
-    const getWeatherInfo = () => {
-
+    const getWeatherInfo = async () => {
+      await get_weather_info(store.state.access_token, store.state.house_id)
+          .then((response) => {
+            temperature.value = response.data.weather_tem;
+            wind_speed.value = response.data.weather_wind;
+            weather_status.value = response.data.weather_status;
+            weather_preci.value = response.data.weather_preci;
+            humidity.value = response.data.weather_hum;
+          })
+          .catch((e) => {
+            
+            // 토큰 만료 오류 - 로그인 페이지로 이동
+            if(e.status === 401){
+              router.push({
+                  name : "Login"
+              })
+            }
+          })
     }
+
+    getWeatherInfo();
 
     return {
       temperature,
       wind_speed,
-      weather,
-      humidity,
-      getWeatherInfo
+      weather_status,
+      weather_preci,
+      humidity
     }
 
   }
