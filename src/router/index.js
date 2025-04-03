@@ -20,7 +20,7 @@ const router = createRouter({
             component : MainPage
         },
         {
-            path : "/login",
+            path : "/",
             name : "Login",
             component : LoginPage
         },
@@ -30,7 +30,7 @@ const router = createRouter({
             component : FindPwdPage
         },
         {
-            path : "/",
+            path : "/select-house",
             name : "SelectHousePage",
             component : SelectHousePage
         },

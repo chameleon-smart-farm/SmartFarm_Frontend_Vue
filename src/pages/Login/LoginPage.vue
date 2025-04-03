@@ -51,9 +51,9 @@
 
 <script>
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { login } from '@/axios'
+import { login, test, get_name } from '@/axios'
 
 export default {
 
@@ -64,6 +64,40 @@ export default {
 
     // NavBar 가리기
     store.dispatch('triggerSHOWNAV',false, Boolean);
+
+    // 가지고 있는 토큰이 올바른 토큰이라면 바로 selectHoust페이지로
+    onMounted( async () => {
+
+      await test(store.state.access_token, store.state.refresh_token)
+          .then((response) => {
+
+            console.log("return값 : " + response.data.new_access_token);
+
+            /**
+             * return - 토큰일 경우
+             * access_token 만료, refresh_token 정상
+             * access_token 재설정 후 select_house 페이지로 이동
+             */
+
+            if(response.data.new_access_token){
+              console.log("access_token 만료, refresh_token 정상")
+              store.dispatch('triggerACCESS', response.data.new_access_token);
+            }
+
+            router.push({
+              name : "SelectHousePage"
+            })
+          })
+          .catch((e) => {
+            /**
+            * return - 401 에러 코드
+            * access_token 만료, refresh_token 만료
+            * 다시 로그인!
+            */
+            console.log("access_token 만료, refresh_token 만료")
+            console.log("e : " + e)
+          })
+    })
 
     // 사용자 아이디, 비밀번호
     const user_id = ref('');
@@ -82,8 +116,14 @@ export default {
       }
 
       await login(data)
-      .then((response) => {
-        console.log(response.data);
+      .then( async (response) => {
+
+        // 토큰 저장
+        store.dispatch('triggerACCESS', response.data.access_token);
+        store.dispatch('triggerREFRESH', response.data.refresh_token);
+
+        // 사용자 이름 받아오기
+        await getName();
 
         // 농장 선택 페이지 이동
         router.push({
@@ -98,6 +138,18 @@ export default {
       })
 
     }
+
+    // 사용자 이름 받아오기
+    const getName = async () => {
+      await get_name(store.state.access_token)
+        .then((response) => {
+          store.dispatch('triggerUSERNAME', response.data );
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+    }
+
     // 회원가입 페이지 이동
     const toSignUp = () => {
       router.push({
