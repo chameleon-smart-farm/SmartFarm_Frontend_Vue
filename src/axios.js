@@ -81,6 +81,41 @@ export function post_reservation(access_token, house_id, data) {
     })
 }
 
+// 사용자 정보 받아오기
+export function get_user_info(access_token) {
+    return user_axios.get('/user/info',  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 사용자 정보 수정
+export function put_user_info(access_token, data) {
+    return user_axios.put('/user/update', data, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 농장 정보 조회
+export function get_house_info(access_token) {
+    return user_axios.get('/house/info',  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 농장 정보 수정
+export function put_house_info(access_token, data) {
+    return user_axios.put('/house/update', data, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
 // 로그인 정보 얻어오기
 // export function login_info_get(token) {
 //     return user_axios.get('/user/getInfo', {
