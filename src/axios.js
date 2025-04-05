@@ -63,6 +63,24 @@ export function get_weather_info(access_token, house_id){
     })
 }
 
+// 예약 정보 리스트 가져오기
+export function get_reservation_list(access_token, house_id) {
+    return user_axios.get('/reservation/list/' + house_id, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 예약 정보 입력하기
+export function post_reservation(access_token, house_id, data) {
+    return user_axios.post('/reservation/insert/' + house_id, data,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // 로그인 정보 얻어오기
 // export function login_info_get(token) {
 //     return user_axios.get('/user/getInfo', {
