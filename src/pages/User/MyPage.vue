@@ -106,7 +106,7 @@
                     <!-- 수정 -->
                     <div class="mt-2 d-flex justify-content-end" style="margin-right: 15%; margin-bottom: 10%;" >
                         <button class="btn btn-warning mt-2"  v-if="!isMidifyHouse" @click="toModifyHouse">수정</button>
-                        <button class="btn btn-warning mt-2"  v-if="isMidifyHouse" @click="modifyHouse">수정완료</button>
+                        <button class="btn btn-warning mt-2"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
                     </div>
 
                     <!-- 농장 이름 -->
@@ -160,25 +160,42 @@
 
 <script>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { get_user_info, put_user_info,
+    get_house_info, put_house_info } from '@/axios';
 
 export default {
 
     setup(){
-        // store 변수
+        // store 변수, router 변수
         const store = useStore();
+        const router = useRouter();
 
         // NavBar 보이기
         store.dispatch('triggerSHOWNAV',true, Boolean);
 
         // 사용자 정보 - 이름, 관심 작물, 아이디
-        const user_name = store.state.user_name;
+        const user_name = ref(store.state.user_name);
         const user_faw_crop = ref("관심 작물");
         const user_id = ref("아이디");
 
         // 사용자 정보 얻어오기
-        const getUserInfo = () => {
-            // header에 token을 담아 발송
+        const getUserInfo = async () => {
+            await get_user_info(store.state.access_token)
+                .then((response) => {
+                    user_name.value = response.data.user_name;
+                    user_faw_crop.value = response.data.faw_crop;
+                    user_id.value = response.data.user_id;
+                })
+                .catch((e) => {
+                    // 토큰 만료 오류 - 로그인 페이지로 이동
+                    if(e.status === 401){
+                        router.push({
+                            name : "Login"
+                        })
+                    }
+                })
         }
 
         getUserInfo();
@@ -196,18 +213,47 @@ export default {
         }
 
         // 사용자 정보 수정
-        const modifyUser = () => {
-            // 위의 사용자 정보 수정 변수를 data에 담아 전송
+        const modifyUser = async () => {
+            
+            const data = {
+                "user_name": modi_user_name.value,
+                "user_id": user_id.value,
+                "faw_crop": modi_user_faw_crop.value
+            }
+
+            await put_user_info(store.state.access_token, data)
+                .then(() => {
+                    isMidifyUser.value = false;
+                    getUserInfo();
+                })
+                .catch((e) => {
+                    // 토큰 만료 오류 - 로그인 페이지로 이동
+                    if(e.status === 401){
+                        router.push({
+                            name : "Login"
+                        })
+                    }
+                })
+
         }
 
         // 농장 리스트
-        const house_list = ref([{"house_id" : 1, "house_name" : "농장1" , "house_crop" : "고구마", "house_add" : "경기도"}, 
-                                {"house_id" : 2, "house_name" : "농장2" , "house_crop" : "딸기", "house_add" : "경기도"},
-                                {"house_id" : 3, "house_name" : "농장3" , "house_crop" : "양파", "house_add" : "경기도"}]);
+        const house_list = ref([]);
 
         // 사용자의 농장 리스트 얻어오기
-        const getHouseList = () => {
-            // header에 token을 담아 발송 (token에서 사용자 아이디)
+        const getHouseList = async () => {
+            await get_house_info(store.state.access_token)
+                .then((response) => {
+                    house_list.value = response.data;
+                })
+                .catch((e) => {
+                    // 토큰 만료 오류 - 로그인 페이지로 이동
+                    if(e.status === 401){
+                        router.push({
+                            name : "Login"
+                        })
+                    }
+                })
         }
 
         getHouseList();
@@ -225,8 +271,27 @@ export default {
         }
 
         // 농장 정보 수정
-        const modifyHouse = (house_id) => {
-            console.log(house_id);
+        const modifyHouse = async (house_id) => {
+
+            const data = {
+                "house_id": house_id,
+                "house_crop": house_crop.value,
+                "house_name": house_name.value
+            }
+
+            await put_house_info(store.state.access_token, data)
+                .then(() => {
+                    isMidifyHouse.value = false;
+                    getHouseList();
+                })
+                .catch((e) => {
+                    // 토큰 만료 오류 - 로그인 페이지로 이동
+                    if(e.status === 401){
+                        router.push({
+                            name : "Login"
+                        })
+                    }
+                })
         }
 
         return {
