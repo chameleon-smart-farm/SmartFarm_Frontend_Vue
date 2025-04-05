@@ -11,17 +11,9 @@
         <ul class="sidebar_ul" >
             <li @click="selectMenu(1)">홈</li>
             <li @click="selectMenu(2)">농장 확인</li>
-            <li @click="selectMenu(3)">인디 비주얼?</li>
-            <li @click="selectMenu(4)">로그 조회</li>
-            <li @click="selectMenu(5)">농장 정보</li>
-            <li @click="selectMenu(6)">스케줄링 예약</li>
-            <li @click="selectMenu(7)">개인 정보 : {{ user_email }}</li>
-            <li>설정</li>
-            <li @click="selectMenu(8)">기타 메뉴 4</li>
-            <li @click="selectMenu(9)">기타 메뉴 5</li>
-            <li>도움말</li>
-            <li>개인정보처리방침</li>
-            <li>서비스 약관</li>
+            <li @click="selectMenu(3)">스케줄링 예약</li>
+            <li @click="selectMenu(4)">농장 선택</li>
+            <li @click="selectMenu(5)">MyPage</li>
         </ul>
 
       </div>
@@ -48,15 +40,16 @@
 <script>
 import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
-// import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'App',
   components: {},
   setup() {
 
-    // store 변수
+    // store 변수, router 변수
     const store = useStore();
+    const router = useRouter();
     // 전역 변수인 user_email값 호출
     const user_email = store.state.user_email;
     // NavBar 보여주기 여부
@@ -66,6 +59,42 @@ export default {
     // 메뉴 선택 메서드
     const selectMenu = (select_id) => {
       console.log("select Id : ", select_id);
+
+      switch (select_id) {
+        case 1:
+          router.push({
+              name : "Main"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 2:
+          router.push({
+              name : "HouseStatusPage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 3:
+          router.push({
+              name : "ListReservationPage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 4:
+          router.push({
+              name : "SelectHousePage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 5:
+          router.push({
+              name : "MyPage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        default:
+          break;
+      }
+
     }
 
     // 네비바 선택에 따라 분기 설정
