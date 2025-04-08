@@ -13,8 +13,8 @@
       <table class="mt-2 table table-hover border-gray" >
         <thead style="position: sticky; top: 0; z-index: 1;">
           <tr>
-            <th>일자</th>
-            <th>평균 온도</th>
+            <th>현재 온도</th>
+            <th>기상청 예보 온도</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
 
     <!-- 3시간 평균 온도 리스트 제목 -->
     <div class="text_align mt-3" >
-        <h4>농장 정보</h4>
+        <h4>3시간 평균 온도</h4>
     </div>
 
     <!-- 3시간 평균 온도 리스트 -->
@@ -37,15 +37,15 @@
       <table class="mt-2 table table-hover border-gray" >
         <thead style="position: sticky; top: 0; z-index: 1;">
           <tr>
-            <th>일자</th>
+            <th>시간</th>
             <th>평균 온도</th>
           </tr>
         </thead>
         <tbody>
           <!-- 평균 온도 리스트 -->
           <tr v-for="tem in tem_avg_list" :key="tem.tem_avg_id" >
-            <td>{{ tem.tem_avg_fin_time }}</td>
-            <td>{{ tem.tem_avg_data }}</td>
+            <td>{{ tem.tem_avg_fin_time }}:00</td>
+            <td>{{ tem.tem_avg_data / 10 }}</td>
           </tr>
         </tbody>
       </table>
@@ -59,13 +59,16 @@
 
 <script>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { get_house_tem_info } from '@/axios';
 
 export default {
 
   setup() {
-    // store 변수
+    // store 변수, router 변수
     const store = useStore();
+    const router = useRouter();
 
     // NavBar 보이기
     store.dispatch('triggerSHOWNAV',true, Boolean);
@@ -73,12 +76,26 @@ export default {
     // PLC 온도, 기상청 온도, 3시간 평균 온도 리스트
     const plc_tem = ref(16);
     const weather_tem = ref(17);
-    const tem_avg_list = ref([{"tem_avg_id" : 1, "tem_avg_fin_time" : "250325", "tem_avg_data" : 3 },
-    {"tem_avg_id" : 2, "tem_avg_fin_time" : "250327", "tem_avg_data" : 4 }]);
+    const tem_avg_list = ref([]);
 
     // PLC 온도, 기상청 온도, 3시간 평균 온도 리스트 받아오기
-    const getTemAvhList = () => {
-      // header에 token을 담아 발송
+    const getTemAvhList = async () => {
+      await get_house_tem_info(store.state.access_token, store.state.house_id)
+        .then((response) => {
+
+          plc_tem.value = response.data.tem_data;
+          weather_tem.value = response.data.weather_tem;
+          tem_avg_list.value = response.data.avg_list;
+
+        })
+        .catch((e) => {
+          // 토큰 만료 오류 - 로그인 페이지로 이동
+          if(e.status === 401){
+              router.push({
+                  name : "Login"
+              })
+          }
+        })
     }
 
     getTemAvhList();

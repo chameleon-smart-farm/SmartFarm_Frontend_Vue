@@ -116,11 +116,12 @@ export function put_house_info(access_token, data) {
         }
     })
 }
-// 로그인 정보 얻어오기
-// export function login_info_get(token) {
-//     return user_axios.get('/user/getInfo', {
-//         headers : {
-//             login_token : token
-//         }
-//     })
-// }
+
+// 온도 데이터 조회 : PLC 온도, 기상청 온도, 3시간 평균 온도 리스트 받아오기
+export function get_house_tem_info(access_token, house_id) {
+    return user_axios.get('/house_status/tem_info/' + house_id,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
