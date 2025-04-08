@@ -11,6 +11,7 @@ import SignUpPage from "@/pages/Login/SignUpPage.vue";
 import PreSignUpPage from "@/pages/Login/PreSignUpPage.vue";
 import ListReservationPage from "@/pages/Reservation/ListReservationPage.vue";
 import AddReservationPage from "@/pages/Reservation/AddReservationPage.vue";
+import HouseMachinePage from "@/pages/House/HouseMachinePage.vue";
 
 const router = createRouter({
     history : createWebHistory(),
@@ -45,6 +46,11 @@ const router = createRouter({
             path : "/house-status",
             name : "HouseStatusPage",
             component : HouseStatusPage
+        },
+        {
+            path : "/house-machine",
+            name : "HouseMachinePage",
+            component : HouseMachinePage
         },
         {
             path : "/sign-up/:house_id",
