@@ -125,3 +125,21 @@ export function get_house_tem_info(access_token, house_id) {
         }
     })
 }
+
+// 모터 상태 조회 메서드
+export function get_motor_info(access_token, house_id) {
+    return user_axios.get('/house_machine/motor/status/' + house_id,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 모터 on/off 메서드
+export function post_motor_on_off(access_token, house_id, data) {
+    return user_axios.post('/house_machine/motor/on_off/' + house_id, data,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}

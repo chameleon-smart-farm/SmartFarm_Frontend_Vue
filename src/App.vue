@@ -10,10 +10,11 @@
         <!-- 사이드바 내용 -->
         <ul class="sidebar_ul" >
             <li @click="selectMenu(1)">홈</li>
-            <li @click="selectMenu(2)">농장 확인</li>
-            <li @click="selectMenu(3)">스케줄링 예약</li>
-            <li @click="selectMenu(4)">농장 선택</li>
-            <li @click="selectMenu(5)">MyPage</li>
+            <li @click="selectMenu(2)">농장 상태 확인</li>
+            <li @click="selectMenu(3)">농장 기기 확인</li>
+            <li @click="selectMenu(4)">스케줄링 예약</li>
+            <li @click="selectMenu(5)">농장 선택</li>
+            <li @click="selectMenu(6)">MyPage</li>
         </ul>
 
       </div>
@@ -75,17 +76,23 @@ export default {
           break;
         case 3:
           router.push({
-              name : "ListReservationPage"
+              name : "HouseMachinePage"
           })
           clickMenu();  // 다시 메뉴바 닫기
           break;
         case 4:
           router.push({
-              name : "SelectHousePage"
+              name : "ListReservationPage"
           })
           clickMenu();  // 다시 메뉴바 닫기
           break;
         case 5:
+          router.push({
+              name : "SelectHousePage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 6:
           router.push({
               name : "MyPage"
           })
