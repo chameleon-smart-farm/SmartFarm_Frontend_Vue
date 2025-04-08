@@ -20,7 +20,7 @@
 
     </div>
   </div>
-  <nav class="navbar mb-0" style="background-color: orange;" v-show="nav_show" >
+  <nav class="navbar mb-0" style="background-color: #93C572;" v-show="nav_show" >
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
           @click="clickMenu">
