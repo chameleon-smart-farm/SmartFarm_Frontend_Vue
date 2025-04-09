@@ -35,7 +35,7 @@
             <td>{{ r.reservation_id }}</td>
             <td>{{ r.reservation_hour }}</td>
             <td>{{ r.reservation_min }}</td>
-            <td>{{ r.reservation_day }}</td>
+            <td>{{ ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'][r.reservation_day] }}</td>
           </tr>
         </tbody>
       </table>
