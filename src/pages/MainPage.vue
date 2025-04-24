@@ -8,20 +8,20 @@
       <!-- 온도 -->
       <div class="col-3 card-box" style="background: #FFA07A;" >
         <div>
-          <h4>온도</h4>
+          <h4>온도</h4> <hr>
           <h1>{{ temperature }}</h1>
         </div>
       </div>
 
       <!-- 풍속 -->
       <div class="col-3 card-box" style="background: #FFE4B5;" >
-        <h4>풍속</h4>
+        <h4>풍속</h4> <hr>
         <h1>{{ wind_speed }}</h1>
       </div>
 
       <!-- 습도 -->
       <div class="col-3 card-box" style="background: #66CDAA;" >
-        <h4>습도</h4>
+        <h4>습도</h4> <hr>
         <h1>{{ humidity }}</h1>
       </div>
 
@@ -32,13 +32,13 @@
 
       <!-- 하늘 상태 -->
       <div class="col-5 card-box" style="background: #F0E68C;" >
-        <h4>하늘</h4>
+        <h4>하늘</h4> <hr>
         <h1>{{ weather_status }}</h1>
       </div>
 
       <!-- 강수 상태 -->
       <div class="col-5 card-box" style="background: #F0E68C;" >
-        <h4>강수</h4>
+        <h4>강수</h4> <hr>
         <h1>{{ weather_preci }}</h1>
       </div>
 
@@ -125,22 +125,22 @@ export default {
 /* 각 영역 표시 - 배경색은 각각 설정 */
 .card-box {
   margin: 4%;
-  padding: 10%;
+  padding: 4%;
   border-radius: 12px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* 왼쪽 정렬 */
+/* 가운데 정렬 */
 h4{
-  text-align: left;
+  text-align: center;
   margin: 2px;
-  margin-bottom: 25%;
+  font-weight: bold;
 }
 
 /* 폰트 2.3배 크게 설정 */
 h1{
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size : 2.3rem;
 }
 
