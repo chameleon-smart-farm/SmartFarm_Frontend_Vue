@@ -1,7 +1,8 @@
 import axios from "axios";
 
 let user_axios = axios.create({
-    baseURL : "http://localhost:8080",
+    // baseURL : "http://localhost:8080",
+    baseURL : "http://3.37.160.235:8080",
     headers: {
         'Content-Type': 'application/json; charset=utf-8'
     }
