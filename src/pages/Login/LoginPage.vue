@@ -2,20 +2,20 @@
   
   <!-- 제목 -->
   <div class="text_align mt-3 mb-5" style="text-align: center;" >
-    <h2>스마트팜 로그인</h2>
+    <h2 v-once >스마트팜 로그인</h2>
     <hr>
   </div>
 
   <!-- 아이디 -->
   <div class="mb-4" >
-    <div class="text_align" ><h3>아이디</h3></div>
+    <div class="text_align" ><h3 v-once >아이디</h3></div>
     <div> <input type="text" v-model="user_id" class="form-control" placeholder="아이디"
         v-bind:class="{ 'text_full' : user_id }" > </div>
   </div>
 
   <!-- 비밀번호 -->
   <div class="mb-4" >
-    <div class="text_align" ><h3>비밀번호</h3></div>
+    <div class="text_align" ><h3 v-once >비밀번호</h3></div>
     <div> <input type="password" v-model="user_pwd" class="form-control" placeholder="비밀번호"
         v-bind:class="{ 'text_full' : user_pwd }" > </div>
   </div>
@@ -51,7 +51,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { login, test, get_name } from '@/axios'
 
@@ -65,39 +65,41 @@ export default {
     // NavBar 가리기
     store.dispatch('triggerSHOWNAV',false, Boolean);
 
-    // 가지고 있는 토큰이 올바른 토큰이라면 바로 selectHoust페이지로
-    onMounted( async () => {
+    /**
+     * 기존에 유효한 Access Token과 Refresh Token이 있다면 
+     * 바로 selectHoust 페이지로 이동
+     * @then : 서버에서 200 응답이 온다면 유효한 Access Token이 있다는 것
+     * @catch : 401에러와 함께 new_acces_token이 왔다면 유효한 Refresh Token이 있다는 것
+     * -> 새로운 Access Token을 발급 받았으므로 selectHouse 페이지로 이동
+     * 그 외 오류라면 이동하지 않고 오류 출력
+     */
 
-      await test(store.state.access_token, store.state.refresh_token)
-          .then((response) => {
-
-            console.log("return값 : " + response.data.new_access_token);
-
-            /**
-             * return - 토큰일 경우
-             * access_token 만료, refresh_token 정상
-             * access_token 재설정 후 select_house 페이지로 이동
-             */
-
-            if(response.data.new_access_token){
-              console.log("access_token 만료, refresh_token 정상")
-              store.dispatch('triggerACCESS', response.data.new_access_token);
-            }
+     const tokenTest = async () => {
+      await test()
+          .then(() => {
+            
+            console.log("LoginPage : 서버 연결 성공 & 유효한 Access Token")
 
             router.push({
               name : "SelectHousePage"
             })
           })
           .catch((e) => {
-            /**
-            * return - 401 에러 코드
-            * access_token 만료, refresh_token 만료
-            * 다시 로그인!
-            */
-            console.log("access_token 만료, refresh_token 만료")
-            console.log("e : " + e)
+            if( e.response && e.response.status === 401 && e.response.data.new_access_token !=null){
+              console.log("LoginPage : 새로운 access_token 발행 : " + e.response.data.new_access_token)
+
+              router.push({
+                name : "SelectHousePage"
+              })
+            }else if(e.response){
+              console.log("LoginPage 에러 : " + e.response.data)
+            }else{
+              console.log("LoginPage 에러 : " + e.message)
+            }
           })
-    })
+    }
+
+    tokenTest();
 
     // 사용자 아이디, 비밀번호
     const user_id = ref('');
@@ -116,37 +118,38 @@ export default {
       }
 
       await login(data)
-      .then( async (response) => {
+        .then( async () => {
 
-        // 토큰 저장
-        store.dispatch('triggerACCESS', response.data.access_token);
-        store.dispatch('triggerREFRESH', response.data.refresh_token);
+          // 사용자 이름 받아오기
+          await getName();
 
-        // 사용자 이름 받아오기
-        await getName();
-
-        // 농장 선택 페이지 이동
-        router.push({
-          name : "SelectHousePage"
+          // 농장 선택 페이지 이동
+          router.push({
+            name : "SelectHousePage"
+          })
         })
-      })
-      .catch((e) => {
-        console.log(e.message);
-        error_msg.value = e.message;
-        // 로그인 실패시 실패했다는 팝업
-        ifFalse.value = true;
-      })
+        .catch((e) => {
+          console.log("LoginPage 에러 : " + e.response.data);
+          error_msg.value = e.response.data;
+          // 로그인 실패시 실패했다는 팝업
+          ifFalse.value = true;
+        })
 
     }
 
     // 사용자 이름 받아오기
     const getName = async () => {
-      await get_name(store.state.access_token)
+      await get_name()
         .then((response) => {
           store.dispatch('triggerUSERNAME', response.data );
         })
         .catch((e) => {
-          console.log(e);
+          if(e.status === 401 && e.response.data.new_access_token !=null){
+              console.log("LoginPage : 새로운 access_token 발행 : " + e.response.data.new_access_token)
+              getName();
+            }else{
+              console.log("LoginPage - getName 에러 : " + e.response.data)
+            }
         })
     }
 

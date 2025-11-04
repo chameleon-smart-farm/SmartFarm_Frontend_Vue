@@ -5,7 +5,7 @@
     <!-- 제목 -->
     <div class="col-8" >
         <div class="text_align mt-3" >
-           <h2>모터 예약 리스트</h2>
+           <h2 v-once >모터 예약 리스트</h2>
         </div> 
     </div>
 
@@ -22,11 +22,11 @@
   <div class="detail" >
       <table class="mt-2 table table-hover border-gray" >
         <thead style="position: sticky; top: 0; z-index: 1;">
-          <tr>
-            <th>예약 ID</th>
-            <th>시간</th>
-            <th>분</th>
-            <th>요일</th>
+          <tr v-once > 
+            <th v-once >예약 ID</th>
+            <th v-once >시간</th>
+            <th v-once >분</th>
+            <th v-once >요일</th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +48,7 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { get_reservation_list } from '@/axios';
+import { get_reservation_list, set_access_token} from '@/axios';
 
 export default {
 
@@ -66,16 +66,26 @@ export default {
 
     // 예약 리스트 받아오기
     const getReserList = async () => {
-        await get_reservation_list(store.state.access_token, store.state.house_id)
+        await get_reservation_list(store.state.house_id)
             .then((response) => {
                 reservation_list.value = response.data;
             })
             .catch((e) => {
-                // 토큰 만료 오류 - 로그인 페이지로 이동
-                if(e.status === 401){
-                    router.push({
-                        name : "Login"
-                    })
+                /**
+                 * 토큰 만료 오류
+                 * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                 * 400 ~ 599 에러라면 에러 메시지 출력
+                 * 다른 오류라면 login 페이지로 이동
+                 */
+                if(e.status === 401 && e.response.data.new_access_token !=null){
+                  set_access_token(e.response.data.new_access_token);
+                  getReserList();
+                }else if(e.status >= 400 && e.status < 600){
+                  console.log("MainPage 에러 : " + e.message);
+                }else{
+                  router.push({
+                      name : "Login"
+                  })
                 }
             })
     }
