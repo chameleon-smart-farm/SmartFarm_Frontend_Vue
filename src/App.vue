@@ -136,7 +136,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap'); */
 
 #app {
   font-family: "Gowun Dodum", sans-serif;

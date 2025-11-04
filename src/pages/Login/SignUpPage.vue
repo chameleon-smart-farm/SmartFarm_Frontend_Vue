@@ -5,56 +5,56 @@
     <div class="text_align mt-3 mb-5"  >
       <div style="display: flex; flex-direction: row; " >
           <button class="btn" @click="toLogin" >←</button>
-          <h2 style="margin: 0 auto;" >회원가입</h2>
+          <h2 v-once style="margin: 0 auto;" >회원가입</h2>
       </div>
       <hr>
     </div>
   
     <!-- 이름 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>이름</h3></div>
+      <div class="text_align" ><h3 v-once >이름</h3></div>
       <div> <input type="text" v-model="user_name" class="form-control" placeholder="이름"
           v-bind:class="{ 'text_full' : user_name }" > </div>
     </div>
   
     <!-- 아이디 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>아이디</h3></div>
+      <div class="text_align" ><h3 v-once >아이디</h3></div>
       <div> <input type="text" v-model="user_id" class="form-control" placeholder="아이디"
           v-bind:class="{ 'text_full' : user_id }" > </div>
     </div>
   
     <!-- 비밀번호 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>비밀번호</h3></div>
+      <div class="text_align" ><h3 v-once >비밀번호</h3></div>
       <div> <input type="password" v-model="user_pwd" class="form-control" placeholder="비밀번호"
           v-bind:class="{ 'text_full' : user_pwd }" > </div>
     </div>
   
     <!-- 비밀번호 확인 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>비밀번호 확인</h3></div>
+      <div class="text_align" ><h3 v-once >비밀번호 확인</h3></div>
       <div> <input type="password" v-model="user_pwd_chk" class="form-control" placeholder="비밀번호 확인"
           v-bind:class="{ 'text_full' : user_pwd_chk }" > </div>
     </div>
 
     <!-- 관심 작물 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>관심 작물</h3></div>
+      <div class="text_align" ><h3 v-once >관심 작물</h3></div>
       <div> <input type="text" v-model="user_faw_crop" class="form-control" placeholder="관심 작물"
           v-bind:class="{ 'text_full' : user_faw_crop }" > </div>
     </div>
 
     <!-- 농장 이름 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>농장 이름</h3></div>
+      <div class="text_align" ><h3 v-once >농장 이름</h3></div>
       <div> <input type="text" v-model="house_name" class="form-control" placeholder="농장 이름"
           v-bind:class="{ 'text_full' : house_name }" > </div>
     </div>
 
     <!-- 농장 작물 -->
     <div class="mb-4" >
-      <div class="text_align" ><h3>농장 작물</h3></div>
+      <div class="text_align" ><h3 v-once >농장 작물</h3></div>
       <div> <input type="text" v-model="house_crop" class="form-control" placeholder="농장 작물"
           v-bind:class="{ 'text_full' : house_crop }" > </div>
     </div>

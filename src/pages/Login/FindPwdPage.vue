@@ -7,20 +7,20 @@
   
   <!-- 제목 -->
   <div class="text_align mt-3 mb-5" >
-    <h2><span class="text-warning">비밀번호</span> 찾기</h2>
+    <h2 v-once ><span class="text-warning">비밀번호</span> 찾기</h2>
     <hr>
   </div>
 
   <!-- 아이디 -->
   <div class="mb-4" >
-    <div class="text_align" ><h3>아이디</h3></div>
+    <div class="text_align" ><h3 v-once >아이디</h3></div>
     <div> <input type="text" v-model="user_id" class="form-control" placeholder="아이디"
         v-bind:class="{ 'text_full' : user_id }" > </div>
   </div>
 
   <!-- 인증방법 선택 -->
   <div>
-    <div class="text_align" ><h3>인증</h3></div>
+    <div class="text_align" ><h3 v-once >인증</h3></div>
     <div> <input type="text" v-model="user_email" class="form-control" placeholder="이메일 주소 입력"
         v-bind:class="{ 'text_full' : user_email }" > </div>
   </div>

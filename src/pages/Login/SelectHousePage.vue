@@ -3,7 +3,7 @@
     <div class="container" >
 
         <!-- 사용자 아이콘 -->
-        <div class="mt-5 mb-5" style="flex: 3" >
+        <div v-once class="mt-5 mb-5" style="flex: 3" >
             <img src="https://img.icons8.com/?size=100&id=zxB19VPoVLjK&format=png&color=81D17E" alt="">
         </div>
 
@@ -31,7 +31,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { get_house_name_list } from '@/axios';
+import { get_house_name_list, set_access_token } from '@/axios';
 
 export default {
 
@@ -47,18 +47,35 @@ export default {
         const user_name = ref(store.state.user_name);
 
         // 농장 리스트
-        const houses = ref([{"house_name" : "나만의 농장"},{"house_name" : "고구마 농장"} ]);
+        // const houses = ref([{"house_name" : "나만의 농장"},{"house_name" : "고구마 농장"} ]);
+        const houses = ref([]);
 
         // 농장 목록 가져오기
         const getHouseList = async () => {
-            await get_house_name_list(store.state.access_token)
+            await get_house_name_list()
                 .then((response) => {
                     houses.value = response.data;
                 })
                 .catch((e) => {
-                    console.log(e.message);
+                    /**
+                     * 토큰 만료 오류
+                     * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                     * 400 ~ 599 에러라면 에러 메시지 출력
+                     * 다른 오류라면 login 페이지로 이동
+                     */
+                    if(e.status === 401 && e.response.data.new_access_token !=null){
+                        set_access_token(e.response.data.new_access_token);
+                        getHouseList();
+                    }else if(e.status >= 400 && e.status < 600){
+                        console.log("SelectHousePage 에러 : " + e.message);
+                    }else{
+                        router.push({
+                            name : "Login"
+                        })
+                    }
                 })
         }
+
         getHouseList();
 
         // house_id 설정과 메인 페이지 이동

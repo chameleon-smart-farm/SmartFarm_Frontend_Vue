@@ -6,7 +6,7 @@
         <!-- 제목 -->
         <div class="col-6" >
             <div class="text_align mt-3" >
-                <h4>사용자 정보</h4>
+                <h4 v-once >사용자 정보</h4>
             </div>
         </div>
         <!-- 수정 -->
@@ -85,7 +85,7 @@
         <!-- 제목 -->
         <div class="col-6" >
             <div class="text_align mt-3" >
-                <h4>농장 정보</h4>
+                <h4 v-once >농장 정보</h4>
             </div>
         </div>
         
@@ -163,7 +163,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { get_user_info, put_user_info,
-    get_house_info, put_house_info } from '@/axios';
+    get_house_info, put_house_info, set_access_token } from '@/axios';
 
 export default {
 
@@ -182,15 +182,26 @@ export default {
 
         // 사용자 정보 얻어오기
         const getUserInfo = async () => {
-            await get_user_info(store.state.access_token)
+            await get_user_info()
                 .then((response) => {
                     user_name.value = response.data.user_name;
                     user_faw_crop.value = response.data.faw_crop;
                     user_id.value = response.data.user_id;
                 })
                 .catch((e) => {
-                    // 토큰 만료 오류 - 로그인 페이지로 이동
-                    if(e.status === 401){
+                    /**
+                     * 토큰 만료 오류
+                     * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                     * 400 ~ 599 에러라면 에러 메시지 출력
+                     * 다른 오류라면 login 페이지로 이동
+                     */
+                    if(e.status === 401 && e.response.data.new_access_token !=null){
+                        set_access_token(e.response.data.new_access_token);
+                        getUserInfo();
+                    }else if(e.status >= 400 && e.status < 600){
+                        console.log("MyPage 에러 : " + e.message);
+                    }
+                    else{
                         router.push({
                             name : "Login"
                         })
@@ -221,14 +232,24 @@ export default {
                 "faw_crop": modi_user_faw_crop.value
             }
 
-            await put_user_info(store.state.access_token, data)
+            await put_user_info(data)
                 .then(() => {
                     isMidifyUser.value = false;
                     getUserInfo();
                 })
                 .catch((e) => {
-                    // 토큰 만료 오류 - 로그인 페이지로 이동
-                    if(e.status === 401){
+                    /**
+                     * 토큰 만료 오류
+                     * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                     * 400 ~ 599 에러라면 에러 메시지 출력
+                     * 다른 오류라면 login 페이지로 이동
+                     */
+                    if(e.status === 401 && e.response.data.new_access_token !=null){
+                        set_access_token(e.response.data.new_access_token);
+                        modifyUser();
+                    }else if(e.status >= 400 && e.status < 600){
+                        console.log("MyPage 에러 : " + e.message);
+                    }else{
                         router.push({
                             name : "Login"
                         })
@@ -242,13 +263,23 @@ export default {
 
         // 사용자의 농장 리스트 얻어오기
         const getHouseList = async () => {
-            await get_house_info(store.state.access_token)
+            await get_house_info()
                 .then((response) => {
                     house_list.value = response.data;
                 })
                 .catch((e) => {
-                    // 토큰 만료 오류 - 로그인 페이지로 이동
-                    if(e.status === 401){
+                    /**
+                     * 토큰 만료 오류
+                     * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                     * 400 ~ 599 에러라면 에러 메시지 출력
+                     * 다른 오류라면 login 페이지로 이동
+                     */
+                    if(e.status === 401 && e.response.data.new_access_token !=null){
+                        set_access_token(e.response.data.new_access_token);
+                        getHouseList();
+                    }else if(e.status >= 400 && e.status < 600){
+                        console.log("MyPage 에러 : " + e.message);
+                    }else{
                         router.push({
                             name : "Login"
                         })
@@ -279,14 +310,24 @@ export default {
                 "house_name": house_name.value
             }
 
-            await put_house_info(store.state.access_token, data)
+            await put_house_info(data)
                 .then(() => {
                     isMidifyHouse.value = false;
                     getHouseList();
                 })
                 .catch((e) => {
-                    // 토큰 만료 오류 - 로그인 페이지로 이동
-                    if(e.status === 401){
+                    /**
+                     * 토큰 만료 오류
+                     * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                     * 400 ~ 599 에러라면 에러 메시지 출력
+                     * 다른 오류라면 login 페이지로 이동
+                     */
+                     if(e.status === 401 && e.response.data.new_access_token !=null){
+                        set_access_token(e.response.data.new_access_token);
+                        modifyHouse();
+                    }else if(e.status >= 400 && e.status < 600){
+                        console.log("MyPage 에러 : " + e.message);
+                    }else{
                         router.push({
                             name : "Login"
                         })

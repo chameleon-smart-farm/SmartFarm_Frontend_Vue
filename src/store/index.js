@@ -8,8 +8,6 @@ export default createStore({
     state : {
         user_name : "example",
         show_nav : true,
-        access_token : "",
-        refresh_token : "",
         house_id : 1
     },
     
@@ -27,12 +25,6 @@ export default createStore({
         },
         SHOWNAV(state, payload) {
             state.show_nav = payload;
-        },
-        ACCESS(state, payload){
-            state.access_token = payload;
-        },
-        REFRESH(state, payload){
-            state.refresh_token = payload;
         },
         HOUSEID(state, payload){
             state.house_id = payload;
@@ -53,12 +45,6 @@ export default createStore({
         },
         triggerSHOWNAV({commit}, show) {
             commit('SHOWNAV', show);
-        },
-        triggerACCESS({commit}, access){
-            commit('ACCESS', access);
-        },
-        triggerREFRESH({commit}, refresh){
-            commit('REFRESH', refresh);
         },
         triggerHOUSEID({commit}, house_id){
             commit('HOUSEID', house_id);

@@ -4,14 +4,14 @@
   <div class="text_align mt-3 mb-5"  >
       <div style="display: flex; flex-direction: row; " >
           <button class="btn" @click="toLogin" >←</button>
-          <h2 style="margin: 0 auto;" >회원가입</h2>
+          <h2 v-once style="margin: 0 auto;" >회원가입</h2>
       </div>
       <hr>
   </div>
 
   <!-- 시리얼 번호 -->
   <div class="mb-4" >
-    <div class="text_align" ><h3>시리얼 번호</h3></div>
+    <div class="text_align" ><h3 v-once >시리얼 번호</h3></div>
     <div> <input type="text" v-model="serial_num" class="form-control" placeholder="시리얼 번호"
         v-bind:class="{ 'text_full' : serial_num }" > </div>
   </div>
@@ -69,7 +69,7 @@ export default {
             // 검증을 통과한다면 이동, 실패한다면 팝업문
             await confirm_serial(serial_num.value)
                 .then((response) => {
-                    console.log("house_id : " + response.data);
+                    console.log("PreSignUpPage - house_id : " + response.data);
 
                     router.push({
                         name : "SignUpPage",
