@@ -1,8 +1,9 @@
 import axios from "axios";
 
 let user_axios = axios.create({
-    // baseURL : "http://localhost:8080",
-    baseURL : "http://3.37.160.235:8080",
+    // baseURL : "https://localhost:8080",
+    // baseURL : "http://3.37.160.235:8080",
+    baseURL : "https://back.moduleup.cloud:8080",
     withCredentials : true,
     headers: {
         'Content-Type': 'application/json; charset=utf-8'
