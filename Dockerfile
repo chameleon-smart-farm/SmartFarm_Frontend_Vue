@@ -1,5 +1,5 @@
 # 베이스 이미지
-FROM node:latest
+FROM node:22-alpine
 
 # 클라우드 환경에서의 디렉토리
 WORKDIR /frontend
