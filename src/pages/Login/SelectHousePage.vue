@@ -31,7 +31,7 @@
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { get_house_name_list, set_access_token } from '@/axios';
+import { get_house_name_list, set_access_token, update_fcm_token } from '@/axios';
 
 export default {
 
@@ -77,6 +77,52 @@ export default {
         }
 
         getHouseList();
+
+        const sendFCMToken = async () => {
+            if (window.Android && typeof window.Android.getFCMToken === 'function') {
+                try {
+                    // Android 앱의 메서드 호출
+                    const device_token = window.Android.getFCMToken();
+                    window.alert('sendFCMToken : FCM 토큰 수신 : ' + device_token)
+
+                    const fcm_data = {"device_token": device_token}
+                    
+                    /**
+                     * axios 통신으로 token 전달
+                     */
+                    await update_fcm_token(fcm_data)
+                        .then(() => {
+                            console.log('sendFCMToken : FCM 토큰 서버 전달 완료');
+                        })
+                        .catch((e) => {
+                            /**
+                             * 토큰 만료 오류
+                             * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
+                             * 400 ~ 599 에러라면 에러 메시지 출력
+                             * 다른 오류라면 login 페이지로 이동
+                             */
+                            if(e.status === 401 && e.response.data.new_access_token !=null){
+                                set_access_token(e.response.data.new_access_token);
+                                sendFCMToken();
+                            }else if(e.status >= 400 && e.status < 600){
+                                console.log("SelectHousePage 에러 : " + e.message);
+                            }else{
+                                router.push({
+                                    name : "Login"
+                                })
+                            }
+                        })
+
+                } catch (error) {
+                    console.error('sendFCMToken : Native 앱에서 FCM 토큰 가져오기 오류 : ', error);
+                }
+            } else {
+                // Android 인터페이스가 없으면 웹 브라우저 환경이거나 오류
+                console.log('sendFCMToken : 앱이 아닌 웹 브라우저 환경입니다. ');
+            }
+        }
+
+        sendFCMToken()
 
         // house_id 설정과 메인 페이지 이동
         const toMain = (house_id) => {
