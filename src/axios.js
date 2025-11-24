@@ -49,6 +49,15 @@ export function get_name() {
     })
 }
 
+// fcm token 전송
+export function update_fcm_token(fcm_data) {
+    return user_axios.put('/fcm', fcm_data, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // 토큰 테스트
 export function test() {
     return user_axios.get('/test', {
