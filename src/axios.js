@@ -2,7 +2,6 @@ import axios from "axios";
 
 let user_axios = axios.create({
     // baseURL : "https://localhost:8080",
-    // baseURL : "http://3.37.160.235:8080",
     baseURL : "https://back.moduleup.cloud:8080",
     withCredentials : true,
     headers: {
@@ -51,7 +50,7 @@ export function get_name() {
 
 // fcm token 전송
 export function update_fcm_token(fcm_data) {
-    return user_axios.put('/fcm', fcm_data, {
+    return user_axios.put('/fcm/update_fcm_token', fcm_data, {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
