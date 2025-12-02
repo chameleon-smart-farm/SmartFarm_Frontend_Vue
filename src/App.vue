@@ -31,9 +31,13 @@
   </nav>
 
   <!-- isClick 값이 true일 때 배경의 투명도를 50%로 하는 스타일 적용 -->
-  <div class="container" v-bind:class = "{ 'opacity-50' : isClick }"
+  <div class="start-container" >
+  <div class="app-container" v-bind:class = "{ 'opacity-50' : isClick }"
     @click="isClick ? clickMenu() : null" >
-    <router-view/>
+    <div class="page" >
+      <router-view/>
+    </div>
+  </div>
   </div>
 
 </template>
@@ -173,4 +177,34 @@ li {
 .opacity-50 {
   background-color: rgba(255, 255, 255, 0.5); /* 배경색과 투명도 설정 */
 }
+
+/* 화면 중앙 정렬 */
+.start-container {
+  min-height: 100vh;            
+  display: flex;
+  align-items: center;           
+  justify-content: center;       
+  box-sizing: border-box;
+}
+
+/* 네비바가 고정(fixed)이고 높이가 56px이면, 그만큼 빼서 중앙 계산 */
+.navbar-fixed + .viewport {
+  min-height: calc(100vh - 56px);
+}
+
+/* width 전체를 사용하게끔 변경 */
+.app-container {
+  width: 100%;                   
+  max-width: 600px;              
+  box-sizing: border-box;
+}
+
+/* 페이지 내부 가로 100% 유지 */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
 </style>
