@@ -75,6 +75,7 @@ export default {
      */
 
      const tokenTest = async () => {
+
       await test()
           .then(() => {
             
@@ -117,6 +118,12 @@ export default {
         "user_pwd" : user_pwd.value
       }
 
+      // 로딩화면 보이기
+      store.dispatch('triggerLOADING',true, Boolean);
+      // 로그인 실패 팝업 가리기
+      ifFalse.value = false;
+
+
       await login(data)
         .then( async () => {
 
@@ -134,6 +141,9 @@ export default {
           // 로그인 실패시 실패했다는 팝업
           ifFalse.value = true;
         })
+
+        // 로딩화면 종료
+        store.dispatch('triggerLOADING', false, Boolean);
 
     }
 

@@ -40,25 +40,29 @@
   </div>
   </div>
 
+  <!-- 로딩 스피너 -->
+  <SpinnerBar :loading="loading_status"></SpinnerBar>   
+
 </template>
 
 <script>
 import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
+import SpinnerBar from './components/SpinnerBar.vue';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'App',
-  components: {},
+  components: {SpinnerBar,},
   setup() {
 
     // store 변수, router 변수
     const store = useStore();
     const router = useRouter();
-    // 전역 변수인 user_email값 호출
-    const user_email = store.state.user_email;
     // NavBar 보여주기 여부
     const nav_show = computed(() => store.state.show_nav);
+    // loading 여부
+    const loading_status = computed(() => store.state.loading);
 
     
     // 메뉴 선택 메서드
@@ -130,10 +134,10 @@ export default {
 
     return {
       selectMenu,
-      user_email,
       clickMenu,
       isClick,
-      nav_show
+      nav_show,
+      loading_status
     }
   }
 };
@@ -194,8 +198,8 @@ li {
 
 /* width 전체를 사용하게끔 변경 */
 .app-container {
-  width: 100%;                   
-  max-width: 600px;              
+  width: 99%;                   
+  max-width: 767px;              
   box-sizing: border-box;
 }
 
