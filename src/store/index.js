@@ -8,6 +8,7 @@ export default createStore({
     state : {
         user_name : "example",
         show_nav : true,
+        loading : false,
         house_id : 1
     },
     
@@ -17,14 +18,14 @@ export default createStore({
             // state : 위의 영역 / payload : 변경될 값
             state.example = payload;
         },
-        USEREMAIL(state, payload) {
-            state.user_email = payload;
-        },
         USERNAME(state, payload){
             state.user_name = payload;
         },
         SHOWNAV(state, payload) {
             state.show_nav = payload;
+        },
+        LOADING(state, payload) {
+            state.loading = payload;
         },
         HOUSEID(state, payload){
             state.house_id = payload;
@@ -37,14 +38,14 @@ export default createStore({
         triggerExample({commit}, message){
             commit('MESSAGE', message);
         },
-        triggerUSEREMAIL({commit}, email) {
-            commit('USEREMAIL', email);
-        },
         triggerUSERNAME({commit}, name) {
             commit('USERNAME', name);
         },
         triggerSHOWNAV({commit}, show) {
             commit('SHOWNAV', show);
+        },
+        triggerLOADING({commit}, load) {
+            commit('LOADING', load);
         },
         triggerHOUSEID({commit}, house_id){
             commit('HOUSEID', house_id);
