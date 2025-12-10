@@ -97,7 +97,7 @@ export default {
             })
         }
 
-        // route 사용과 param으로 사용자 이메일 받기
+        // route 사용과 param으로 농장 아이디 받기
         const route = useRoute();
         const house_id = route.params.house_id;
 

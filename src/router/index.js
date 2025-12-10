@@ -60,6 +60,18 @@ const router = createRouter({
             component : () => import ('@/pages/House/HouseMachinePage.vue')
         },
         {
+            path : "/serial-check",
+            name : "SerialCheckPage",
+            // component : SignUpPage
+            component : () => import ('@/pages/House/SerialCheckPage.vue')
+        },
+        {
+            path : "/add-house/:house_id",
+            name : "AddHousePage",
+            // component : SignUpPage
+            component : () => import ('@/pages/House/AddHousePage.vue')
+        },
+        {
             path : "/sign-up/:house_id",
             name : "SignUpPage",
             // component : SignUpPage

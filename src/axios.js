@@ -75,6 +75,15 @@ export function get_house_name_list() {
     })
 }
 
+// 기존 농장 추가하기
+export function add_house(data) {
+    return user_axios.put('/house/update', data, {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // 농장 기상청 데이터 가져오기
 export function get_weather_info(house_id){
     return user_axios.get('/house/get_weather_info/' + house_id, {
