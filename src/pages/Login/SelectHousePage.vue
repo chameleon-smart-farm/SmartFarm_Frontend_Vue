@@ -13,7 +13,7 @@
         </div>
         
         <!-- 농장 리스트 -->
-        <div class="card mt-2"
+        <div class="card mt-2 mb-5"
             v-for="h in houses"
             :key = "h.house_id" style="flex: 1;"> 
             <div class="card-body p-2" @click="toMain(h.house_id)" > 
@@ -21,7 +21,11 @@
             </div>
         </div>
 
-        
+        <!-- 농장 추가 버튼 -->
+        <div class="mt-5" >
+            <button class="btn btn-outline-success" @click="toSerialCheck" >농장 추가</button>
+        </div>
+
 
     </div>
 
@@ -136,11 +140,19 @@ export default {
             })
         }
 
+        // 농장 추가 페이지로 이동
+        const toSerialCheck = () => {
+            router.push({
+                name : "SerialCheckPage"
+            })
+        }
+
         return {
             user_name,
             houses,
             getHouseList,
-            toMain
+            toMain,
+            toSerialCheck
         }
 
     }

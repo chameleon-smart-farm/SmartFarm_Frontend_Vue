@@ -2,7 +2,7 @@
   <!-- 제목 -->
   <div class="text_align mt-3" >
     <h2 v-once >모터 상태</h2>
-    <hr v-once >
+    <!-- <hr v-once > -->
   </div>
 
   <!-- 모터 상태 -->

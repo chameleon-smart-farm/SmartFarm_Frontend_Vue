@@ -4,13 +4,13 @@
     <!-- 사용자 정보 제목 -->
     <div class="row" >
         <!-- 제목 -->
-        <div class="col-6" >
+        <div class="col-9" >
             <div class="text_align mt-3" >
                 <h4 v-once >사용자 정보</h4>
             </div>
         </div>
         <!-- 수정 -->
-        <div class="col-6" >
+        <div class="col-3" >
             <button class="btn btn-warning mt-2" v-if="!isMidifyUser" @click="toModifyUser">수정</button>
             <button class="btn btn-warning mt-2" v-if="isMidifyUser" @click="modifyUser">수정완료</button>
         </div>
@@ -83,12 +83,15 @@
     <!-- 농장 정보 제목 -->
     <div class="row" >
         <!-- 제목 -->
-        <div class="col-6" >
+        <div class="col-8" >
             <div class="text_align mt-3" >
                 <h4 v-once >농장 정보</h4>
             </div>
         </div>
-        
+        <!-- 농장 추가 버튼 -->
+        <div class="col-4" >
+            <button class="btn btn-outline-success mt-3" @click="toSerialCheck" >농장 추가</button>
+        </div>
     </div>
 
     <!-- 농장 정보 -->
@@ -335,6 +338,13 @@ export default {
                 })
         }
 
+        // 농장 추가 페이지로 이동
+        const toSerialCheck = () => {
+            router.push({
+                name : "SerialCheckPage"
+            })
+        }
+
         return {
             isMidifyUser,
             toModifyUser,
@@ -349,7 +359,8 @@ export default {
             user_id,
             house_list,
             house_name,
-            house_crop
+            house_crop,
+            toSerialCheck
         }
     }
 
