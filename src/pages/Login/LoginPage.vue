@@ -136,8 +136,8 @@ export default {
           })
         })
         .catch((e) => {
-          console.log("LoginPage 에러 : " + e.response.data);
-          error_msg.value = e.response.data;
+          console.log("LoginPage 에러 : " + e.message);
+          error_msg.value = e.message;
           // 로그인 실패시 실패했다는 팝업
           ifFalse.value = true;
         })
@@ -158,7 +158,7 @@ export default {
               console.log("LoginPage : 새로운 access_token 발행 : " + e.response.data.new_access_token)
               getName();
             }else{
-              console.log("LoginPage - getName 에러 : " + e.response.data)
+              console.log("LoginPage - getName 에러 : " + e.message)
             }
         })
     }

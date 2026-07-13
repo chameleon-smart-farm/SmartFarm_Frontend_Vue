@@ -54,6 +54,12 @@ const router = createRouter({
             component : () => import ('@/pages/House/HouseStatusPage.vue')
         },
         {
+            path : "/list-house-machine",
+            name : "ListHouseMachinePage",
+            // component : HouseMachinePage
+            component : () => import ('@/pages/House/ListHouseMachinePage.vue')
+        },
+        {
             path : "/house-machine",
             name : "HouseMachinePage",
             // component : HouseMachinePage

@@ -84,7 +84,7 @@ export default {
           break;
         case 3:
           router.push({
-              name : "HouseMachinePage"
+              name : "ListHouseMachinePage"
           })
           clickMenu();  // 다시 메뉴바 닫기
           break;
