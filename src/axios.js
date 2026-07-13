@@ -86,7 +86,7 @@ export function add_house(data) {
 
 // 농장 기상청 데이터 가져오기
 export function get_weather_info(house_id){
-    return user_axios.get('/house/get_weather_info/' + house_id, {
+    return user_axios.get('/house_status/get_weather_info/' + house_id, {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
@@ -156,20 +156,47 @@ export function get_house_tem_info(house_id) {
     })
 }
 
-// 모터 상태 조회 메서드
-export function get_motor_info(house_id) {
-    return user_axios.get('/house_machine/motor/status/' + house_id,  {
+// 기기 목록 가져오기
+export function get_machine_list(house_id) {
+    return user_axios.get('/house_machine/user_machine_list/' + house_id,  {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
     })
 }
 
-// 모터 on/off 메서드
-export function post_motor_on_off(house_id, data) {
-    return user_axios.post('/house_machine/motor/on_off/' + house_id, data,  {
+// 기기 상태 조회 메서드
+export function get_machine_info(machine_kind, house_id) {
+    return user_axios.get('/house_machine/' + machine_kind + '/status/' + house_id,  {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
     })
 }
+
+// 기기 조작하기
+export function post_machine_on_off(house_id, machine_kind, data) {
+    return user_axios.post('/house_machine/' + machine_kind + '/operate/' + house_id, data,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// // 모터 상태 조회 메서드
+// export function get_motor_info(house_id) {
+//     return user_axios.get('/house_machine/motor/status/' + house_id,  {
+//         headers : {
+//             "Authorization" : "Bearer " + access_token
+//         }
+//     })
+// }
+
+// // 모터 on/off 메서드
+// export function post_motor_on_off(house_id, data) {
+//     return user_axios.post('/house_machine/motor/on_off/' + house_id, data,  {
+//         headers : {
+//             "Authorization" : "Bearer " + access_token
+//         }
+//     })
+// }
