@@ -48,6 +48,12 @@ const router = createRouter({
             component : () => import ('@/pages/User/MyPage.vue')
         },
         {
+            path : "/user-setting",
+            name : "UserSettingPage",
+            // component : UserSettingPage
+            component : () => import ('@/pages/User/UserSettingPage.vue')
+        },
+        {
             path : "/house-status",
             name : "HouseStatusPage",
             // component : HouseStatusPage
