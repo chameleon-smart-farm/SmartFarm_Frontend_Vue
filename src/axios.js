@@ -183,6 +183,24 @@ export function post_machine_on_off(house_id, machine_kind, data) {
     })
 }
 
+// 사용자 세팅 가져오기
+export function get_user_setting_info(setting_kind, house_id) {
+    return user_axios.get('/house_machine/' + setting_kind + '/user_status/' + house_id,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// 사용자 세팅 수정하기
+export function post_user_setting(house_id, setting_kind, data) {
+    return user_axios.post('/house_machine/' + setting_kind + '/user_operate/' + house_id, data,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
 // // 모터 상태 조회 메서드
 // export function get_motor_info(house_id) {
 //     return user_axios.get('/house_machine/motor/status/' + house_id,  {

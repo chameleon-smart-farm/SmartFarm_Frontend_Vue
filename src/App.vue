@@ -14,7 +14,8 @@
             <li @click="selectMenu(3)">농장 기기 확인</li>
             <li @click="selectMenu(4)">스케줄링 예약</li>
             <li @click="selectMenu(5)">농장 선택</li>
-            <li @click="selectMenu(6)">MyPage</li>
+            <li @click="selectMenu(6)">농장 사용자 설정</li>
+            <li @click="selectMenu(7)">MyPage</li>
         </ul>
 
       </div>
@@ -101,6 +102,12 @@ export default {
           clickMenu();  // 다시 메뉴바 닫기
           break;
         case 6:
+          router.push({
+              name : "UserSettingPage"
+          })
+          clickMenu();  // 다시 메뉴바 닫기
+          break;
+        case 7:
           router.push({
               name : "MyPage"
           })
