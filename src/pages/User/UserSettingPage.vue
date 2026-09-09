@@ -1,52 +1,70 @@
 <template>
-  <div class="settings-page">
+  <div class="container">
     <!-- 제목 -->
-    <h2 class="page-title">⚙️ 사용자 설정</h2>
+    <h2 class="page-title">사용자 설정</h2>
     <hr>
+
+    <div class="list-container" > <!-- 최소 높이 설정 -->
 
     <!-- 조회 모드 -->
     <div v-if="!editMode" class="row">
-      <div class="col-md-6 mb-4" v-for="item in settings" :key="item.key">
-        <div class="setting-card">
+      <div class="col-6 mb-4" v-for="item in settings" :key="item.key">
+        <div class="setting-card h-100">
           <h5>{{ item.icon }} {{ item.label }}</h5>
-          <p class="value-text">{{ item.value }} {{ item.unit }}</p>
+          <p class="value-text mt-5">{{ item.value }} {{ item.unit }}</p>
         </div>
       </div>
     </div>
 
     <!-- 수정 모드 -->
     <div v-else class="row">
-      <div class="col-md-6 mb-4" v-for="item in settings" :key="item.key">
+      <div class="col-6 mb-4" v-for="item in settings" :key="item.key">
         <div class="setting-card">
           <h5>{{ item.icon }} {{ item.label }}</h5>
           <!-- 슬라이더 또는 입력 필드 -->
           <input 
-            v-if="item.type === 'range'" 
-            v-model="item.value" 
             type="range" 
-            :min="item.min" 
-            :max="item.max" 
+            v-model="item.value" 
+            min="0" 
+            max="999" 
             class="form-range"
           >
-          <input 
-            v-else 
-            v-model="item.value" 
-            type="number" 
-            class="form-control"
-          >
+          <div class="d-flex align-items-center">
+            <button 
+              @click="item.value = Math.max(item.min ?? 0, item.value - 1)" 
+              class="btn btn-outline-secondary"
+            >-</button>
+
+            <input 
+              type="number" 
+              v-model.number="item.value" 
+              :min="item.min ?? 0" 
+              :max="item.max ?? 999" 
+              class="form-control mx-2"
+            >
+
+            <button 
+              @click="item.value = Math.min(item.max ?? 999, item.value + 1)" 
+              class="btn btn-outline-secondary"
+            >+</button>
+          </div>
           <p class="value-text">{{ item.value }} {{ item.unit }}</p>
         </div>
       </div>
     </div>
 
     <!-- 버튼 -->
-    <div class="text-center mt-4">
-      <button v-if="!editMode" class="btn btn-secondary btn-lg" @click="startEdit">✏️ 수정하기</button>
+    <div class="text-center mt-4 mb-2">
+      <button v-if="!editMode" class="btn btn-warning btn-lg" @click="startEdit">수정</button>
       <div v-else>
-        <button class="btn btn-primary btn-lg me-2" @click="saveSettings">💾 저장</button>
+        <button class="btn btn-primary btn-lg me-2" @click="saveSettings">저장</button>
         <button class="btn btn-outline-secondary btn-lg" @click="cancelEdit">취소</button>
       </div>
     </div>
+
+    </div> 
+    <!-- 최소 높이 설정 -->
+
   </div>
 </template>
 
@@ -73,7 +91,7 @@ export default {
     const settings = ref([
       { key: 'user_tem', label: '온도', icon: '🌡️', value: 999, unit: '℃', type: 'range', min: 15, max: 35 },
       { key: 'user_hum', label: '습도', icon: '💧', value: 99, unit: '%', type: 'range', min: 0, max: 100 },
-      { key: 'user_co2', label: '이산화탄소', icon: '🌬️', value: 99, unit: 'ppm', type: 'number' },
+      { key: 'user_co2', label: 'CO2', icon: '🌬️', value: 99, unit: 'ppm', type: 'number' },
       { key: 'user_solar', label: '일사량', icon: '☀️', value: 99, unit: 'W/m²', type: 'number' },
       { key: 'user_soil', label: '토양 수분', icon: '🌱', value: 99, unit: '%', type: 'range', min: 0, max: 100 },
       { key: 'user_ph', label: '토양 산성', icon: '🧪', value: 99, unit: 'pH', type: 'number' }
@@ -191,17 +209,21 @@ export default {
 </script>
 
 <style scoped>
-.settings-page {
-  padding: 20px;
-}
 
 .page-title {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-top : 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* 최소 높이 */
+.list-container {
+  /* min-height: 45em; */
+  /* border: 1px solid red; */
 }
 
 .setting-card {
-  background: #f9f9f9;
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 16px;

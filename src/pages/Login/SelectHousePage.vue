@@ -8,12 +8,12 @@
         </div>
 
         <!-- 사용자 이름 -->
-        <div class="mb-5" style="flex: 2;" >
-            <h4>{{ user_name }} 님의 농장 리스트입니다.</h4>
+        <div class="mb-5 page-title" style="flex: 2;" >
+            <h2>{{ user_name }} 님의 농장 리스트입니다.</h2>
         </div>
         
         <!-- 농장 리스트 -->
-        <div class="card mt-2 mb-5"
+        <div class="card mt-2 mb-2"
             v-for="h in houses"
             :key = "h.house_id" style="flex: 1;"> 
             <div class="card-body p-2" @click="toMain(h.house_id)" > 
@@ -23,7 +23,7 @@
 
         <!-- 농장 추가 버튼 -->
         <div class="mt-5" >
-            <button class="btn btn-outline-success" @click="toSerialCheck" >농장 추가</button>
+            <button class="btn btn-success" @click="toSerialCheck" >농장 추가</button>
         </div>
 
 
@@ -167,6 +167,13 @@ export default {
     display: flex;
     flex-direction: column;
     height: 50vh;
+}
+
+/* 제목 */
+.page-title {
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 </style>

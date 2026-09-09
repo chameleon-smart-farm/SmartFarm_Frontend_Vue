@@ -79,7 +79,7 @@ export default {
           break;
         case 2:
           router.push({
-              name : "HouseStatusPage"
+              name : "ListHouseStatusPage"
           })
           clickMenu();  // 다시 메뉴바 닫기
           break;
@@ -191,11 +191,12 @@ li {
 
 /* 화면 중앙 정렬 */
 .start-container {
-  min-height: 100vh;            
+  /* min-height: calc(100vh - 56px);             */
   display: flex;
   align-items: center;           
   justify-content: center;       
   box-sizing: border-box;
+  /* border: 1px solid red; */
 }
 
 /* 네비바가 고정(fixed)이고 높이가 56px이면, 그만큼 빼서 중앙 계산 */

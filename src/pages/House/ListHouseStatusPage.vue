@@ -1,20 +1,20 @@
 <template>
   <!-- 제목 -->
   <div class="mt-3">
-    <h2 class="text_align" v-once>기기 리스트</h2>
+    <h2 class="text_align" v-once>센서 리스트</h2>
     <hr v-once>
   </div>
 
   <!-- 검색/필터 -->
   <div class="row mb-3">
     <div class="col-8">
-      <input v-model="searchQuery" type="text" class="form-control" placeholder="기기 검색...">
+      <input v-model="searchQuery" type="text" class="form-control" placeholder="센서 검색...">
     </div>
     <div class="col-4">
       <select v-model="filterStatus" class="form-select">
         <option value="">전체</option>
-        <option value="true">존재</option>
-        <option value="false">미존재</option>
+        <option value="1">활성</option>
+        <option value="0">비활성</option>
       </select>
     </div>
   </div>
@@ -29,17 +29,17 @@
     </div>
   </div>
 
-  <!-- 기기 카드 리스트 -->
-  <div v-else class="row">
+  <!-- 센서 카드 리스트 -->
+  <div v-else class="row list-container">
     <div 
-      v-for="device in filteredDevices" 
-      :key="device.id" 
+      v-for="sensor in filteredSensors" 
+      :key="sensor.id" 
       class="col-md-4 col-sm-6 mb-4"
     >
-      <div class="device-card" @click="goToDeviceControl(device)">
-        <h4>{{ device.user_device_name }}</h4>
-        <p :class="['status', device.user_device_activate == 1 ? 'on' : 'off']">
-          {{ device.user_device_activate == 1 ? '존재' : '미존재' }}
+      <div class="sensor-card" @click="goToSensorDetail(sensor)">
+        <h4>{{ sensor.user_device_name  }}</h4>
+        <p :class="['status', sensor.user_device_activate == 1 ? 'on' : 'off']">
+          {{ sensor.user_device_activate == 1 ? '활성' : '비활성' }}
         </p>
       </div>
     </div>
@@ -50,7 +50,7 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { ref, computed, onMounted} from 'vue';
-import { get_machine_list, set_access_token } from '@/axios';
+import { get_sensor_list, set_access_token } from '@/axios';
 
 export default {
   setup() {
@@ -60,8 +60,8 @@ export default {
     // NavBar 보이기
     store.dispatch('triggerSHOWNAV', true, Boolean);
 
-    // 기기 리스트 (예시 데이터)
-    const devices = ref();
+    // 센서 리스트 (예시 데이터)
+    const sensors = ref([]);
     
     // 로딩
     const loading = ref(true);
@@ -70,24 +70,23 @@ export default {
     const searchQuery = ref('');
     const filterStatus = ref('');
 
-    const filteredDevices = computed(() => {
-        return devices.value.filter(d => {
-            const matchesSearch = d.user_device_name.includes(searchQuery.value);
+    // 검색/필터된 센서 리스트
+    const filteredSensors = computed(() => {
+        return sensors.value.filter(s => {
+            const matchesSearch = s.user_device_name.includes(searchQuery.value);
             const matchesFilter = 
-            filterStatus.value === '' || String(d.user_device_activate) === filterStatus.value;
+            filterStatus.value === '' || String(s.user_device_activate) === filterStatus.value;
             return matchesSearch && matchesFilter;
         });
     });
 
-    // 기기 목록 가져오기
-    const getMachineList = async () => {
-
-        await get_machine_list(store.state.house_id)
+    // 센서 목록 가져오기
+    const getSensorList = async () => {
+        await get_sensor_list(store.state.house_id)
             .then((response) => {
-                devices.value = response.data;
+                sensors.value = response.data;
             })
             .catch((e) => {
-            
                 /**
                  * 토큰 만료 오류
                  * 401 에러와 함께 새로운 토큰이 왔다면 기존의 access_token 값에 덮어 씌우고 다시 메서드 요청
@@ -96,47 +95,42 @@ export default {
                  */
                 if(e.status === 401 && e.response.data.new_access_token !=null){
                     set_access_token(e.response.data.new_access_token);
-                    getMachineList();
+                    getSensorList();
                 }else if (e.status === 401){
-                    router.push({
-                        name : "Login"
-                    })
+                    router.push({ name : "Login" })
                 }
                 else if(e.status >= 400 && e.status < 600){
-                    console.log("MainPage 에러 : " + e.message);
+                    console.log("SensorPage 에러 : " + e.message);
                 }else{
-                    router.push({
-                        name : "Login"
-                    })
+                    router.push({ name : "Login" })
                 }
             })
-
         loading.value = false;
     }
 
-    // getMachineList();
+    // 컴포넌트 마운트 시 센서 목록 가져오기
     onMounted(() => {
-      getMachineList();
+      getSensorList();
     });
 
-    // 기기 조작 페이지로 이동
-    const goToDeviceControl = (device) => {
+    // 센서 상세 페이지로 이동
+    const goToSensorDetail = (sensor) => {
       router.push({
-        name: "HouseMachinePage",
+        name: "HouseStatusPage",
         query: { 
-            name: device.user_device_name,
-            short_name: device.device_type_short_name
+            name: sensor.user_device_name,
+            short_name: sensor.device_type_short_name
         }
       });
     };
 
     return {
       loading,
-      devices,
+      sensors,
       searchQuery,
       filterStatus,
-      filteredDevices,
-      goToDeviceControl
+      filteredSensors,
+      goToSensorDetail
     };
   }
 };
@@ -155,7 +149,7 @@ export default {
   min-height: 750px;
 }
 
-.device-card {
+.sensor-card {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 12px;
   padding: 16px;
@@ -168,7 +162,7 @@ export default {
   justify-content: space-between;
 }
 
-.device-card:hover {
+.sensor-card:hover {
   transform: translateY(-4px);
 }
 
@@ -212,9 +206,5 @@ export default {
 }
 .status.off {
   color: red;
-}
-.btn-group {
-  display: flex;
-  justify-content: space-around;
 }
 </style>

@@ -147,14 +147,32 @@ export function put_house_info(data) {
     })
 }
 
-// 온도 데이터 조회 : PLC 온도, 기상청 온도, 3시간 평균 온도 리스트 받아오기
-export function get_house_tem_info(house_id) {
-    return user_axios.get('/house_status/tem_info/' + house_id,  {
+// 센서 목록 가져오기
+export function get_sensor_list(house_id) {
+    return user_axios.get('/house_status/user_sensor_list/' + house_id,  {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
     })
 }
+
+// 센서 데이터 가져오기
+export function get_sensor_info(sensor_kind, house_id){
+    return user_axios.get('/house_status/' + sensor_kind + '/get_double_sensor_info/' + house_id,  {
+        headers : {
+            "Authorization" : "Bearer " + access_token
+        }
+    })
+}
+
+// // 온도 데이터 조회 : PLC 온도, 기상청 온도, 3시간 평균 온도 리스트 받아오기
+// export function get_house_tem_info(house_id) {
+//     return user_axios.get('/house_status/tem_info/' + house_id,  {
+//         headers : {
+//             "Authorization" : "Bearer " + access_token
+//         }
+//     })
+// }
 
 // 기기 목록 가져오기
 export function get_machine_list(house_id) {

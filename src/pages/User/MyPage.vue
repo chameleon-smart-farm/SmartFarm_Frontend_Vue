@@ -1,6 +1,12 @@
 <template>
   <div class="container" >
 
+    <!-- 제목 -->
+    <h2 class="page-title">My Page</h2>
+    <hr>
+
+    <div class="list-container" > <!-- 최소 높이 설정 -->
+
     <!-- 사용자 정보 제목 -->
     <div class="row" >
         <!-- 제목 -->
@@ -21,7 +27,7 @@
         
         <!-- 사용자 이름 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 이름
             </div>
             <div class="col-6">
@@ -30,7 +36,7 @@
         </div>
         <!-- 관심 작물 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 관심 작물
             </div>
             <div class="col-6">
@@ -39,7 +45,7 @@
         </div>
         <!-- 아이디 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 아이디
             </div>
             <div class="col-6">
@@ -53,7 +59,7 @@
         
         <!-- 사용자 이름 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 이름
             </div>
             <div class="col-6">
@@ -62,7 +68,7 @@
         </div>
         <!-- 관심 작물 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 관심 작물
             </div>
             <div class="col-6">
@@ -71,7 +77,7 @@
         </div>
         <!-- 아이디 -->
         <div class="row atr" >
-            <div class="col-5" >
+            <div class="col-5 atr-name" >
                 아이디
             </div>
             <div class="col-6">
@@ -90,7 +96,17 @@
         </div>
         <!-- 농장 추가 버튼 -->
         <div class="col-4" >
-            <button class="btn btn-outline-success mt-3" @click="toSerialCheck" >농장 추가</button>
+            <button class="btn btn-success mt-3" @click="toSerialCheck" >농장 추가</button>
+        </div>
+    </div>
+
+    <!-- 로딩 중일 때 스켈레톤 -->
+    <div v-if="loading" class="row list-container">
+        <div class="col-md-4 col-sm-6 mb-4 mt-4">
+        <div class="skeleton-card">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-status"></div>
+        </div>
         </div>
     </div>
 
@@ -101,20 +117,20 @@
             <div class="carousel-inner detail">
 
                 <!-- 농장 반복문 -->
-                <div v-for="house in house_list" 
+                <div v-for="(house, index) in house_list" 
                  :key="house.house_id" 
                  class="carousel-item" 
-                 :class="{ active: house.house_id === 1 }">
+                 :class="{ active: index === 0 }">
 
                     <!-- 수정 -->
-                    <div class="mt-2 d-flex justify-content-end" style="margin-right: 15%; margin-bottom: 10%;" >
-                        <button class="btn btn-warning mt-2"  v-if="!isMidifyHouse" @click="toModifyHouse">수정</button>
-                        <button class="btn btn-warning mt-2"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
+                    <div class="mt-1 d-flex justify-content-end" style="margin-right: 2%; margin-bottom: 5%;" >
+                        <button class="btn btn-warning"  v-if="!isMidifyHouse" @click="toModifyHouse">수정</button>
+                        <button class="btn btn-warning"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
                     </div>
 
                     <!-- 농장 이름 -->
                     <div class="row atr" >
-                        <div class="col-5" >
+                        <div class="col-5 atr-name" >
                             농장 이름
                         </div>
                         <div class="col-6">
@@ -124,7 +140,7 @@
                     </div>
                     <!-- 키우는 작물 -->
                     <div class="row atr" >
-                        <div class="col-5" >
+                        <div class="col-5 atr-name" >
                             키우는 작물
                         </div>
                         <div class="col-6">
@@ -134,13 +150,16 @@
                     </div>
                     <!-- 주소 -->
                     <div class="row atr" >
-                        <div class="col-5" >
+                        <div class="col-5 atr-name" >
                             주소
                         </div>
                         <div class="col-6">
                             {{ house.house_add }}
                         </div>
                     </div> <!-- 주소 끝 -->
+
+                    
+
                 </div> <!-- 농장 반복문 끝 -->
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -157,6 +176,8 @@
 
     <!-- 농장 정보 수정 -->
 
+    </div> 
+    <!-- 최소 높이 설정 -->
 
   </div>
 </template>
@@ -264,6 +285,9 @@ export default {
         // 농장 리스트
         const house_list = ref([]);
 
+        // 로딩
+        const loading = ref(true);
+
         // 사용자의 농장 리스트 얻어오기
         const getHouseList = async () => {
             await get_house_info()
@@ -288,6 +312,7 @@ export default {
                         })
                     }
                 })
+            loading.value = false;
         }
 
         getHouseList();
@@ -360,7 +385,8 @@ export default {
             house_list,
             house_name,
             house_crop,
-            toSerialCheck
+            toSerialCheck,
+            loading
         }
     }
 
@@ -370,17 +396,29 @@ export default {
 <style scoped>
 
 /* flex 설정 */
-.container {
+/* .container {
     display: flex;
     flex-direction: column;
     height: 70vh;
-}
+} */
 
 /* 왼쪽 정렬 */
 .text_align{
   text-align: left;
   margin: 2px;
   margin-bottom: 6px;
+}
+
+/* 제목 */
+.page-title {
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* 최소 높이 */
+.list-container {
+  /* min-height: 45em; */
 }
 
 /* 영역 그림자 */
@@ -393,6 +431,53 @@ export default {
 .atr{
   height: 6vh;
   margin: 4%;
+  padding: 2%;
+  text-align: right;
+}
+
+/* 속성 이름 bold */
+.atr-name {
+    font-weight: bold;
+    font-size: large;
+    color: darkgray;
+}
+
+/* 농장 슬라이드에 화살표 보이게 */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%); /* 아이콘 색을 반전시켜서 밝게 보이게 */
+}
+
+
+/* 스켈레톤 카드 */
+.skeleton-card {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 16px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: pulse 1.5s infinite;
+}
+.skeleton-title {
+  width: 70%;
+  height: 20px;
+  background: #ddd;
+  border-radius: 4px;
+  margin: 10px auto;
+}
+.skeleton-status {
+  width: 40%;
+  height: 15px;
+  background: #ddd;
+  border-radius: 4px;
+  margin: 10px auto;
+}
+@keyframes pulse {
+  0% { background-color: #f0f0f0; }
+  50% { background-color: #e0e0e0; }
+  100% { background-color: #f0f0f0; }
 }
 
 </style>
