@@ -128,7 +128,7 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    height: 95vh;
+    height: 80vh;
 }
 
 /* 각 영역 표시 - 배경색은 각각 설정 */
