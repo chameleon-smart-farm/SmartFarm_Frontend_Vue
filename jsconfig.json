@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "baseUrl": "./",
-    "moduleResolution": "node",
+    // "ignoreDeprecations": "6.0",
+    "target": "ESNext",
+    "module": "NodeNext",
+    // "baseUrl": "./src",
+    "moduleResolution": "NodeNext",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@app/*": ["./src/app/*"],
+      "@lib/*": ["./src/lib/*"]
     },
     "lib": [
       "esnext",

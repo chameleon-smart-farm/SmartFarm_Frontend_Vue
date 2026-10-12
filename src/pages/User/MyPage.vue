@@ -5,26 +5,28 @@
     <h2 class="page-title">My Page</h2>
     <hr>
 
-    <div class="list-container" > <!-- 최소 높이 설정 -->
-
-    <!-- 사용자 정보 제목 -->
-    <div class="row" >
-        <!-- 제목 -->
-        <div class="col-9" >
-            <div class="text_align mt-3" >
-                <h4 v-once >사용자 정보</h4>
-            </div>
-        </div>
-        <!-- 수정 -->
-        <div class="col-3" >
-            <button class="btn btn-warning mt-2" v-if="!isMidifyUser" @click="toModifyUser">수정</button>
-            <button class="btn btn-warning mt-2" v-if="isMidifyUser" @click="modifyUser">수정완료</button>
-        </div>
-    </div>
-
     <!-- 사용자 정보 -->
     <div class="detail" style="flex: 1;" v-if="!isMidifyUser" >
         
+        <div class="row" >
+            <!-- 제목 -->
+            <div class="col-9" >
+                <div class="text_align m-3">
+                    <h4 v-once >사용자 정보</h4>
+                </div>
+            </div>
+            <!-- 수정 -->
+            <div class="col-3">
+                <button class="btn btn-outline-warning mt-2" v-if="!isMidifyUser" @click="toModifyUser">수정</button>
+                <button class="btn btn-outline-warning mt-2" v-if="isMidifyUser" @click="modifyUser">수정완료</button>
+                <!-- <div class="text_align mt-3" style="text-align : center" >
+                    <h4 v-once >수정</h4>
+                </div> -->
+            </div>
+        </div>
+
+        <hr style="margin : 0%" >
+
         <!-- 사용자 이름 -->
         <div class="row atr" >
             <div class="col-5 atr-name" >
@@ -57,6 +59,23 @@
     <!-- 사용자 정보 수정 -->
     <div class="detail" style="flex: 1;" v-if="isMidifyUser" >
         
+        <div class="row" >
+            <!-- 제목 -->
+            <div class="col-8" >
+                <div class="text_align m-3">
+                    <h4 v-once >사용자 정보</h4>
+                </div>
+            </div>
+            <!-- 수정 -->
+            <div class="col-4">
+                <button class="btn btn-outline-warning mt-2" v-if="!isMidifyUser" @click="toModifyUser">수정</button>
+                <button class="btn btn-outline-warning mt-2" v-if="isMidifyUser" @click="modifyUser">수정완료</button>
+                <button class="btn btn-outline-warning mt-2 mb-1" v-if="isMidifyUser" @click="modifyCancleUser">취소</button>
+            </div>
+        </div>
+
+        <hr style="margin : 0%" >
+
         <!-- 사용자 이름 -->
         <div class="row atr" >
             <div class="col-5 atr-name" >
@@ -86,22 +105,10 @@
         </div>
     </div>
 
-    <!-- 농장 정보 제목 -->
-    <div class="row" >
-        <!-- 제목 -->
-        <div class="col-8" >
-            <div class="text_align mt-3" >
-                <h4 v-once >농장 정보</h4>
-            </div>
-        </div>
-        <!-- 농장 추가 버튼 -->
-        <div class="col-4" >
-            <button class="btn btn-success mt-3" @click="toSerialCheck" >농장 추가</button>
-        </div>
-    </div>
+    <div style="margin : 5%" ></div>
 
     <!-- 로딩 중일 때 스켈레톤 -->
-    <div v-if="loading" class="row list-container">
+    <div v-if="loading" class="row">
         <div class="col-md-4 col-sm-6 mb-4 mt-4">
         <div class="skeleton-card">
             <div class="skeleton-title"></div>
@@ -111,10 +118,26 @@
     </div>
 
     <!-- 농장 정보 -->
-    <div style="flex: 1;" >
-        
-        <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-inner detail">
+    <div class="detail mb-3" style="flex: 1;" >
+
+        <!-- 농장 정보 제목 -->
+        <div class="row" >
+            <!-- 제목 -->
+            <div class="col-8" >
+                <div class="text_align m-3" >
+                    <h4 v-once >농장 정보</h4>
+                </div>
+            </div>
+            <!-- 농장 추가 버튼 -->
+            <div class="col-4" >
+                <button class="btn btn-outline-success mt-2" @click="toSerialCheck" >농장 추가</button>
+            </div>
+        </div>
+
+        <hr style="margin : 0%" >
+
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+            <div class="carousel-inner" data-bs-ride="false" data-bs-interval="false">
 
                 <!-- 농장 반복문 -->
                 <div v-for="(house, index) in house_list" 
@@ -123,9 +146,10 @@
                  :class="{ active: index === 0 }">
 
                     <!-- 수정 -->
-                    <div class="mt-1 d-flex justify-content-end" style="margin-right: 2%; margin-bottom: 5%;" >
-                        <button class="btn btn-warning"  v-if="!isMidifyHouse" @click="toModifyHouse">수정</button>
-                        <button class="btn btn-warning"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
+                    <div class="mt-1 d-flex justify-content-end" style="margin-right: 2%;" >
+                        <button class="btn btn-outline-warning m-1"  v-if="!isMidifyHouse" @click.stop.prevent="toModifyHouse">수정</button>
+                        <button class="btn btn-outline-warning m-1"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
+                        <button class="btn btn-outline-secondary m-1" v-if="isMidifyHouse" @click="modifyCancleHouse">취소</button>
                     </div>
 
                     <!-- 농장 이름 -->
@@ -170,14 +194,13 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+            
         </div>
+        
 
     </div>
 
     <!-- 농장 정보 수정 -->
-
-    </div> 
-    <!-- 최소 높이 설정 -->
 
   </div>
 </template>
@@ -238,9 +261,14 @@ export default {
         // 사용자 정보 수정 여부
         const isMidifyUser = ref(false);
 
+         // 수정 취소
+        const modifyCancleUser = () => {
+            isMidifyUser.value = false;
+        }
+
         // 사용자 정보 수정 변수
         const modi_user_name = ref(user_name);
-        const modi_user_faw_crop = ref(user_faw_crop.value);
+        const modi_user_faw_crop = ref(user_faw_crop);
 
         // 사용자 정보 수정 틀로 변경
         const toModifyUser = () => {
@@ -320,6 +348,10 @@ export default {
         // 농장 정보 수정 여부
         const isMidifyHouse = ref(false);
 
+        const modifyCancleHouse = () => {
+            isMidifyHouse.value = false;
+        }
+
         // 농장 정보 수정 변수
         const house_name = ref("");
         const house_crop = ref("");
@@ -386,7 +418,9 @@ export default {
             house_name,
             house_crop,
             toSerialCheck,
-            loading
+            loading,
+            modifyCancleUser,
+            modifyCancleHouse
         }
     }
 
@@ -396,11 +430,12 @@ export default {
 <style scoped>
 
 /* flex 설정 */
-/* .container {
+.container {
     display: flex;
     flex-direction: column;
-    height: 70vh;
-} */
+    height: 90vh;
+    overflow-y: auto;
+}
 
 /* 왼쪽 정렬 */
 .text_align{
@@ -412,19 +447,20 @@ export default {
 /* 제목 */
 .page-title {
   font-weight: bold;
-  margin-top: 0.5em;
+  margin-top: 1em;
   margin-bottom: 0.5em;
-}
-
-/* 최소 높이 */
-.list-container {
-  /* min-height: 45em; */
 }
 
 /* 영역 그림자 */
 .detail{
-  box-shadow: 0 6px 7px rgba(79, 79, 79, 0.2);
-  margin: 1%;
+  /* box-shadow: 0 6px 7px rgba(79, 79, 79, 0.2); */
+  /* margin: 1%; */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1%;
+  text-align: left;
+  transition: transform 0.2s;
 }
 
 /* 속성 간격 */
@@ -432,7 +468,7 @@ export default {
   height: 6vh;
   margin: 4%;
   padding: 2%;
-  text-align: right;
+  text-align: left;
 }
 
 /* 속성 이름 bold */
@@ -442,10 +478,20 @@ export default {
     color: darkgray;
 }
 
-/* 농장 슬라이드에 화살표 보이게 */
+/* 농장 슬라이드에 화살표 */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  filter: invert(100%); /* 아이콘 색을 반전시켜서 밝게 보이게 */
+  filter: invert(100%); /* 아이콘 색 반전 */
+}
+
+/* 슬라이드 화살표 영역 제한 */
+.carousel-control-prev,
+.carousel-control-next {
+    top : auto;
+    bottom: 0;
+    height : 70%;
+    width : 8%;
+    /* background-color: rgba(255, 0, 0, 0.2); */
 }
 
 

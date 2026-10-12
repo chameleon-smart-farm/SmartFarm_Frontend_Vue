@@ -24,6 +24,12 @@ const router = createRouter({
             component : () => import ('@/pages/MainPage.vue')
         },
         {
+            path : "/menu",
+            name : "Menu",
+            // component : MainPage
+            component : () => import ('@/pages/MenuPage.vue')
+        },
+        {
             path : "/",
             name : "Login",
             // component : LoginPage

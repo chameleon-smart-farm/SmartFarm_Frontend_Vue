@@ -1,9 +1,10 @@
 <template>
+
+  <div class="container" >
+
   <!-- 제목 -->
-  <div class="mt-3">
-    <h2 class="text_align" v-once>기기 리스트</h2>
-    <hr v-once>
-  </div>
+  <h2 class="page-title" v-once>기기 리스트</h2>
+  <hr v-once>
 
   <!-- 검색/필터 -->
   <div class="row mb-3">
@@ -44,6 +45,9 @@
       </div>
     </div>
   </div>
+
+  </div>
+
 </template>
 
 <script>
@@ -143,16 +147,17 @@ export default {
 </script>
 
 <style scoped>
-.text_align {
-  /* text-align: left; */
+.page-title {
   font-weight: bold;
-  margin: 2px;
-  margin-bottom: 6px;
+  margin-top : 1em;
+  margin-bottom: 0.5em;
 }
 
-/* 최소 높이 */
-.list-container {
-  min-height: 750px;
+/* flex 설정 */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
 }
 
 .device-card {
@@ -166,10 +171,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.device-card:hover {
-  transform: translateY(-4px);
 }
 
 /* 스켈레톤 카드 */
