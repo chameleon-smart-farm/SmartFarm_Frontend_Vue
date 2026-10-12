@@ -4,13 +4,11 @@
     <h2 class="page-title">사용자 설정</h2>
     <hr>
 
-    <div class="list-container" > <!-- 최소 높이 설정 -->
-
     <!-- 조회 모드 -->
     <div v-if="!editMode" class="row">
       <div class="col-6 mb-4" v-for="item in settings" :key="item.key">
         <div class="setting-card h-100">
-          <h5>{{ item.icon }} {{ item.label }}</h5>
+          <h5> {{ item.icon }} {{ item.label }}</h5>
           <p class="value-text mt-5">{{ item.value }} {{ item.unit }}</p>
         </div>
       </div>
@@ -54,16 +52,13 @@
     </div>
 
     <!-- 버튼 -->
-    <div class="text-center mt-4 mb-2">
-      <button v-if="!editMode" class="btn btn-warning btn-lg" @click="startEdit">수정</button>
+    <div class="text-center mt-4">
+      <button v-if="!editMode" class="btn btn-outline-warning btn-lg" @click="startEdit">수정</button>
       <div v-else>
         <button class="btn btn-primary btn-lg me-2" @click="saveSettings">저장</button>
         <button class="btn btn-outline-secondary btn-lg" @click="cancelEdit">취소</button>
       </div>
     </div>
-
-    </div> 
-    <!-- 최소 높이 설정 -->
 
   </div>
 </template>
@@ -91,7 +86,7 @@ export default {
     const settings = ref([
       { key: 'user_tem', label: '온도', icon: '🌡️', value: 999, unit: '℃', type: 'range', min: 15, max: 35 },
       { key: 'user_hum', label: '습도', icon: '💧', value: 99, unit: '%', type: 'range', min: 0, max: 100 },
-      { key: 'user_co2', label: 'CO2', icon: '🌬️', value: 99, unit: 'ppm', type: 'number' },
+      { key: 'user_co2', label: 'CO2', icon: '◉₂', value: 99, unit: 'ppm', type: 'number' },
       { key: 'user_solar', label: '일사량', icon: '☀️', value: 99, unit: 'W/m²', type: 'number' },
       { key: 'user_soil', label: '토양 수분', icon: '🌱', value: 99, unit: '%', type: 'range', min: 0, max: 100 },
       { key: 'user_ph', label: '토양 산성', icon: '🧪', value: 99, unit: 'pH', type: 'number' }
@@ -212,14 +207,20 @@ export default {
 
 .page-title {
   font-weight: bold;
-  margin-top : 0.5em;
+  margin-top : 1em;
   margin-bottom: 0.5em;
 }
 
-/* 최소 높이 */
-.list-container {
-  /* min-height: 45em; */
-  /* border: 1px solid red; */
+/* flex 설정 */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 85vh; /* 이 페이지만 버튼 아래 간격을 위해 85vh로 설정 */
+    overflow-y: auto;
+}
+
+h5 {
+  color :rgb(105, 104, 104);
 }
 
 .setting-card {
@@ -229,9 +230,6 @@ export default {
   padding: 16px;
   text-align: center;
   transition: transform 0.2s;
-}
-.setting-card:hover {
-  transform: translateY(-4px);
 }
 
 .setting-card h5 {
@@ -243,10 +241,6 @@ export default {
   margin-top: 8px;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #4caf50;
-}
-
-.form-range {
-  accent-color: #4caf50;
+  color: #51a03a;
 }
 </style>

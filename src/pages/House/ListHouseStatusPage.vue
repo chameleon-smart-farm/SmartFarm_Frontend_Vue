@@ -1,9 +1,10 @@
 <template>
+
+  <div class="container" >
+
   <!-- 제목 -->
-  <div class="mt-3">
-    <h2 class="text_align" v-once>센서 리스트</h2>
-    <hr v-once>
-  </div>
+  <h2 class="page-title" v-once>센서 리스트</h2>
+  <hr v-once>
 
   <!-- 검색/필터 -->
   <div class="row mb-3">
@@ -43,6 +44,8 @@
         </p>
       </div>
     </div>
+  </div>
+
   </div>
 </template>
 
@@ -137,16 +140,23 @@ export default {
 </script>
 
 <style scoped>
-.text_align {
+.page-title {
   /* text-align: left; */
   font-weight: bold;
-  margin: 2px;
-  margin-bottom: 6px;
+  margin-top : 1em;
+  margin-bottom: 0.5em;
 }
 
 /* 최소 높이 */
 .list-container {
-  min-height: 750px;
+  /* min-height: 750px; */
+}
+
+/* flex 설정 */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
 }
 
 .sensor-card {

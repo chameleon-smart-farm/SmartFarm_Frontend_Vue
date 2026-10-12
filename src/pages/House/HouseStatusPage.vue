@@ -3,10 +3,8 @@
   <div class="container" >
 
     <!-- 제목 -->
-    <div class="text_align mt-3" >
-      <h2 v-once >{{sensor_name}}</h2>
-      <hr v-once >
-    </div>
+    <h2 class="page-title" v-once >{{sensor_name}}</h2>
+    <hr v-once >
 
     <!-- 온도 표 -->
     <div class="detail" >
@@ -141,19 +139,14 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    height: 70vh;
+    height: 80vh;
 }
 
-/* 제목 고정 */
-.list-container {
-  min-height: 750px;
-}
-
-/* 왼쪽 정렬 */
-.text_align{
-  text-align: left;
-  margin: 2px;
-  margin-bottom: 6px;
+/* 제목 */
+.page-title {
+  font-weight: bold;
+  margin-top : 1em;
+  margin-bottom: 0.5em;
 }
 
 /* 영역 그림자 */

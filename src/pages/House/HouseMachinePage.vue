@@ -1,67 +1,70 @@
 <template>
-  <!-- 제목 -->
-  <div class="text_align mt-3">
-    <h2 v-once>{{ machine_name }} 상태</h2>
+
+  <div class="container">
+
+    <!-- 제목 -->
+    <h2 class="page-title" v-once>{{ machine_name }} 상태</h2>
     <hr v-once>
-  </div>
 
-  <!-- 로딩 중일 때 스켈레톤 -->
-  <div v-if="loading" class="card status-card">
-    <div class="card-body text-center">
-      <div class="skeleton-icon"></div>
-      <div class="skeleton-text"></div>
+    <!-- 로딩 중일 때 스켈레톤 -->
+    <div v-if="loading" class="card status-card">
+      <div class="card-body text-center">
+        <div class="skeleton-icon"></div>
+        <div class="skeleton-text"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- 기기 상태 -->
-  <div v-else class="card status-card">
-    <div class="card-body text-center">
-      <img 
-        v-show="machine_status" 
-        src="@/assets/Animation - 1744126697158.gif" 
-        alt="작동 중" 
-        class="status-icon"
-      >
-      <img 
-        v-show="!machine_status" 
-        src="@/assets/image.png" 
-        alt="대기 중" 
-        class="status-icon"
-      >
-      <p class="status-text" :class="machine_status ? 'on' : 'off'">
-        {{ machine_status ? '작동 중' : '대기 중' }}
-      </p>
+    <!-- 기기 상태 -->
+    <div v-else class="card status-card">
+      <div class="card-body text-center">
+        <img 
+          v-show="machine_status" 
+          src="@/assets/Animation - 1744126697158.gif" 
+          alt="작동 중" 
+          class="status-icon"
+        >
+        <img 
+          v-show="!machine_status" 
+          src="@/assets/image.png" 
+          alt="대기 중" 
+          class="status-icon"
+        >
+        <p class="status-text" :class="machine_status ? 'on' : 'off'">
+          {{ machine_status ? '작동 중' : '대기 중' }}
+        </p>
+      </div>
     </div>
-  </div>
 
-  <!-- 제어 버튼 -->
-  <div class="text_align mt-4">
-    <h2 v-once>{{ machine_name }} 제어</h2>
-    <hr v-once>
-  </div>
+    <!-- 제어 버튼 -->
+    <!-- <div class="page-title mt-4">
+      <h2 v-once>{{ machine_name }} 제어</h2>
+      <hr v-once>
+    </div> -->
 
-  <!-- 기기 on/off 버튼 -->
-  <div class="row control-buttons">
-    <div class="col-6 d-grid">
-      <button 
-        class="btn btn-success btn-lg" 
-        @click="machineOnOff(1)" 
-        :disabled="machine_status"
-      >
-        ON
-      </button>
+    <!-- 기기 on/off 버튼 -->
+    <div class="row control-buttons">
+      <div class="col-6 d-grid">
+        <button 
+          class="btn btn-success btn-lg" 
+          @click="machineOnOff(1)" 
+          :disabled="machine_status"
+        >
+          ON
+        </button>
+      </div>
+      <div class="col-6 d-grid">
+        <button 
+          class="btn btn-danger btn-lg" 
+          @click="machineOnOff(0)" 
+          :disabled="!machine_status"
+        >
+          OFF
+        </button>
+      </div>
     </div>
-    <div class="col-6 d-grid">
-      <button 
-        class="btn btn-danger btn-lg" 
-        @click="machineOnOff(0)" 
-        :disabled="!machine_status"
-      >
-        OFF
-      </button>
-    </div>
-  </div>
 
+
+  </div>
 
 </template>
 
@@ -156,10 +159,17 @@ export default {
 
 <style scoped>
 
-.text_align {
-  text-align: left;
-  margin: 2px;
-  margin-bottom: 6px;
+.page-title {
+  font-weight: bold;
+  margin-top : 1em;
+  margin-bottom: 0.5em;
+}
+
+/* flex 설정 */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
 }
 
 .card.status-card {
@@ -187,6 +197,7 @@ export default {
 }
 
 .control-buttons button {
+  margin-top: 1em;
   height: 60px;
   font-size: 1.2rem;
   font-weight: bold;

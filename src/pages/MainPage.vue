@@ -2,11 +2,15 @@
   
   <div class="container" >
 
+    <!-- 제목 -->
+    <h2 class="page-title">홈</h2>
+    <hr>
+
     <!-- 온도, 풍속, 습도 영역 -->
-    <div class="row mt-5" style="flex: 1;" >
+    <div class="row " style="flex: 1;" >
 
       <!-- 온도 -->
-      <div class="col-3 card-box" style="background: #FFA07A;" >
+      <div class="col-3 card-box" style="background: #FFDAB9;" >
         <div>
           <h4 v-once >온도</h4> <hr>
           <h1>{{ temperature }}</h1>
@@ -14,13 +18,13 @@
       </div>
 
       <!-- 풍속 -->
-      <div class="col-3 card-box" style="background: #FFE4B5;" >
+      <div class="col-3 card-box" style="background: #B0E0E6;" >
         <h4 v-once >풍속</h4> <hr>
         <h1>{{ wind_speed }}</h1>
       </div>
 
       <!-- 습도 -->
-      <div class="col-3 card-box" style="background: #66CDAA;" >
+      <div class="col-3 card-box" style="background: #AFEEEE;" >
         <h4 v-once >습도</h4> <hr>
         <h1>{{ humidity }}</h1>
       </div>
@@ -31,22 +35,22 @@
     <div class="row mt-2" style="flex: 1;" >
 
       <!-- 하늘 상태 -->
-      <div class="col-5 card-box" style="background: #F0E68C;" >
+      <div class="col-5 card-box" style="background: #FFFACD;" >
         <h4 v-once >하늘</h4> <hr>
         <h1>{{ weather_status }}</h1>
       </div>
 
       <!-- 강수 상태 -->
-      <div class="col-5 card-box" style="background: #F0E68C;" >
+      <div class="col-5 card-box" style="background: #D3D3D3;" >
         <h4 v-once >강수</h4> <hr>
         <h1>{{ weather_preci }}</h1>
       </div>
 
     </div>
 
-    <div class="mt-3" style="flex : 1;" >
+    <!-- <div class="mt-3" style="flex : 1;" >
       TBD
-    </div>
+    </div> -->
 
   </div>
 
@@ -139,6 +143,14 @@ export default {
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
+/* 제목 */
+.page-title {
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
 
 /* 가운데 정렬 */
 h4{
