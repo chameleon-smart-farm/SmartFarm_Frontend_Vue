@@ -107,16 +107,6 @@
 
     <div style="margin : 5%" ></div>
 
-    <!-- 로딩 중일 때 스켈레톤 -->
-    <div v-if="loading" class="row">
-        <div class="col-md-4 col-sm-6 mb-4 mt-4">
-        <div class="skeleton-card">
-            <div class="skeleton-title"></div>
-            <div class="skeleton-status"></div>
-        </div>
-        </div>
-    </div>
-
     <!-- 농장 정보 -->
     <div class="detail mb-3" style="flex: 1;" >
 
@@ -151,6 +141,18 @@
                         <button class="btn btn-outline-warning m-1"  v-if="isMidifyHouse" @click="modifyHouse(house.house_id)">수정완료</button>
                         <button class="btn btn-outline-secondary m-1" v-if="isMidifyHouse" @click="modifyCancleHouse">취소</button>
                     </div>
+
+                    
+                    <!-- 로딩 중일 때 스켈레톤 -->
+                    <div v-if="loading" class="row">
+                        <div class="col-md-4 col-sm-6 mb-4 mt-4">
+                        <div class="skeleton-card">
+                            <div class="skeleton-title"></div>
+                            <div class="skeleton-status"></div>
+                        </div>
+                        </div>
+                    </div>
+
 
                     <!-- 농장 이름 -->
                     <div class="row atr" >
