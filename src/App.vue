@@ -171,7 +171,6 @@ li {
 
 /* 화면 중앙 정렬 */
 .start-container {
-  /* min-height: calc(100vh - 56px);             */
   display: flex;
   align-items: center;           
   justify-content: center;       
@@ -181,7 +180,7 @@ li {
 
 /* 네비바가 고정(fixed)이고 높이가 56px이면, 그만큼 빼서 중앙 계산 */
 .navbar-fixed + .viewport {
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 5em);
 }
 
 /* width 전체를 사용하게끔 변경 */

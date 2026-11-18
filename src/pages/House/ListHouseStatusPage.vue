@@ -71,7 +71,7 @@ export default {
 
     // 검색/필터
     const searchQuery = ref('');
-    const filterStatus = ref('');
+    const filterStatus = ref('1');
 
     // 검색/필터된 센서 리스트
     const filteredSensors = computed(() => {
@@ -156,7 +156,8 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 90vh;
+    overflow-y: auto; 
 }
 
 .sensor-card {

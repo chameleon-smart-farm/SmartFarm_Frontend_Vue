@@ -14,8 +14,8 @@
     <div class="col-4">
       <select v-model="filterStatus" class="form-select">
         <option value="">전체</option>
-        <option value="true">존재</option>
-        <option value="false">미존재</option>
+        <option value="1">존재</option>
+        <option value="0">미존재</option>
       </select>
     </div>
   </div>
@@ -72,7 +72,7 @@ export default {
 
     // 검색/필터
     const searchQuery = ref('');
-    const filterStatus = ref('');
+    const filterStatus = ref('1');
 
     const filteredDevices = computed(() => {
         return devices.value.filter(d => {
@@ -157,7 +157,8 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 90vh;
+    overflow-y: auto; 
 }
 
 .device-card {
