@@ -1,4 +1,5 @@
 import axios from "axios";
+import JSEncrypt from "jsencrypt";
 
 let user_axios = axios.create({
     // baseURL : "https://localhost:8080",
@@ -16,9 +17,20 @@ export function set_access_token(set_access_token){
     access_token = set_access_token;
 }
 
+// Request Payload 암호화
+function encrypt_payload_data(data) {
+    const crypt = new JSEncrypt();
+    crypt.setPublicKey(process.env.VUE_APP_PUBLIC_KEY.replace(/\\n/g, '\n'))
+
+    // Encrypt data
+    const encrypt_data = crypt.encrypt(JSON.stringify(data));
+    // console.log( "암호화 데이터 : " + encrypt_data)
+    return encrypt_data
+}
+
 // 회원가입 - 시리얼 번호 확인
 export function confirm_serial(data){
-    return user_axios.post('/user/serial',data, {
+    return user_axios.post('/user/serial',encrypt_payload_data(data), {
         headers: {
             'Content-Type': 'text/plain', // 시리얼 번호만 문자열로 전송
         }
@@ -27,12 +39,12 @@ export function confirm_serial(data){
 
 // 회원가입 - 사용자 정보 입력 + 농장 정보 입력
 export function sign_up(data){
-    return user_axios.post('/user/sign_up', data);
+    return user_axios.post('/user/sign_up', encrypt_payload_data(data));
 }
 
 // 로그인
 export async function login(data) {
-    await user_axios.post('/login', data)
+    await user_axios.post('/login', encrypt_payload_data(data))
         .then((response) => {
             access_token = response.data.access_token;
         })
@@ -50,7 +62,7 @@ export function get_name() {
 
 // fcm token 전송
 export function update_fcm_token(fcm_data) {
-    return user_axios.put('/fcm/update_fcm_token', fcm_data, {
+    return user_axios.put('/fcm/update_fcm_token', encrypt_payload_data(fcm_data), {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
@@ -122,7 +134,7 @@ export function get_user_info() {
 
 // 사용자 정보 수정
 export function put_user_info(data) {
-    return user_axios.put('/user/update', data, {
+    return user_axios.put('/user/update', encrypt_payload_data(data), {
         headers : {
             "Authorization" : "Bearer " + access_token
         }
